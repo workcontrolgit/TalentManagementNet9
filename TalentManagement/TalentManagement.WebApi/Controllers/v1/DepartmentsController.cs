@@ -3,6 +3,8 @@
 namespace TalentManagement.WebApi.Controllers.v1
 {
     [ApiVersion("1.0")]
+    // Controllers with GroupName
+    [ApiExplorerSettings(GroupName = "Departments")]
     public class DepartmentsController : BaseApiController
     {
         /// <summary>
@@ -12,10 +14,10 @@ namespace TalentManagement.WebApi.Controllers.v1
         /// <returns>A list of employees.</returns>
         [HttpGet]
         [SwaggerOperation(
-            Summary = "Get employees by department",
-            Description = "Retrieves all employees belonging to a specific department, with option to include sub-departments.",
-            OperationId = "GetEmployeesByDepartment",
-            Tags = new[] { "Employees" }
+            Summary = "Get departments",
+            Description = "Retrieves all departments.",
+            OperationId = "GetDepartments",
+            Tags = new[] { "Departments" }
         )]
         public async Task<IActionResult> Get([FromQuery] GetDepartmentsQuery filter)
         {
