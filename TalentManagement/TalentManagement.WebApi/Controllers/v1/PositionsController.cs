@@ -94,7 +94,7 @@
         //[Authorize(Policy = AuthorizationConsts.AdminPolicy)]
         public async Task<IActionResult> Delete(Guid id)
         {
-            return Ok(await Mediator.Send(new DeletePositionByIdCommand { Id = id }));
+            return Ok(await Mediator.Send(new DeletePositionCommand { Id = id }));
         }
     }
 }
