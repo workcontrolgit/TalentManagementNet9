@@ -22,7 +22,7 @@ global using TalentManagement.Application.Exceptions;
 global using TalentManagement.Application.Features.Departments.Queries.GetDepartments;
 global using TalentManagement.Application.Features.Employees.Queries.GetEmployees;
 global using TalentManagement.Application.Features.Positions.Commands.CreatePosition;
-global using TalentManagement.Application.Features.Positions.Commands.DeletePositionById;
+global using TalentManagement.Application.Features.Positions.Commands.DeletePosition;
 global using TalentManagement.Application.Features.Positions.Commands.UpdatePosition;
 global using TalentManagement.Application.Features.Positions.Queries.GetPositionById;
 global using TalentManagement.Application.Features.Positions.Queries.GetPositions;
