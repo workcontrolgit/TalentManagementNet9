@@ -1,25 +1,25 @@
-﻿namespace TalentManagement.Application.Features.Positions.Commands.DeletePositionById
+﻿namespace TalentManagement.Application.Features.Positions.Commands.DeletePosition
 {
     // Represents a command to delete a position by its ID.
-    public class DeletePositionByIdCommand : IRequest<Response<Guid>>
+    public class DeletePositionCommand : IRequest<Response<Guid>>
     {
         // The ID of the position to be deleted.
         public Guid Id { get; set; }
 
         // Represents the handler for deleting a position by its ID.
-        public class DeletePositionByIdCommandHandler : IRequestHandler<DeletePositionByIdCommand, Response<Guid>>
+        public class DeletePositionCommandHandler : IRequestHandler<DeletePositionCommand, Response<Guid>>
         {
             // The repository used to access and manipulate position data.
             private readonly IPositionRepositoryAsync _repository;
 
             // Constructor that initializes the command handler with the given repository.
-            public DeletePositionByIdCommandHandler(IPositionRepositoryAsync repository)
+            public DeletePositionCommandHandler(IPositionRepositoryAsync repository)
             {
                 _repository = repository;
             }
 
             // Handles the command by deleting the specified position from the repository.
-            public async Task<Response<Guid>> Handle(DeletePositionByIdCommand command, CancellationToken cancellationToken)
+            public async Task<Response<Guid>> Handle(DeletePositionCommand command, CancellationToken cancellationToken)
             {
                 // Retrieves the position with the specified ID from the repository.
                 var entity = await _repository.GetByIdAsync(command.Id);
