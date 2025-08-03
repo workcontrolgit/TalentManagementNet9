@@ -89,7 +89,6 @@ dotnet test
 
 ### Employees
 - `GET /api/v1/employees` - Get all employees
-- `GET /api/v1/employees/{id}` - Get employee by ID
 - `POST /api/v1/employees` - Get paginated employee data
 
 ### Positions
