@@ -26,7 +26,7 @@ The solution is organized into the following layers:
 
 ## Features
 
-- **Employee Management** - CRUD operations for employee records
+- **Employee Management** - Read operations and paginated data retrieval for employee records
 - **Position Management** - Manage job positions with departments and salary ranges
 - **Department Management** - Organize positions by departments
 - **Salary Range Management** - Define salary ranges for positions
@@ -90,9 +90,7 @@ dotnet test
 ### Employees
 - `GET /api/v1/employees` - Get all employees
 - `GET /api/v1/employees/{id}` - Get employee by ID
-- `POST /api/v1/employees` - Create new employee
-- `PUT /api/v1/employees/{id}` - Update employee
-- `DELETE /api/v1/employees/{id}` - Delete employee
+- `POST /api/v1/employees` - Get paginated employee data
 
 ### Positions
 - `GET /api/v1/positions` - Get all positions
