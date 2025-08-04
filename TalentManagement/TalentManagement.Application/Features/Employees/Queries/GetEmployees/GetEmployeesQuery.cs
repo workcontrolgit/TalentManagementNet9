@@ -7,13 +7,19 @@
     /// </summary>
     public class GetEmployeesQuery : QueryParameter, IRequest<PagedResponse<IEnumerable<Entity>>>
     {
-        //examples:
-        public string LastName { get; set; }
-
         public string FirstName { get; set; }
+        public string MiddleName { get; set; }
+        public string LastName { get; set; }
         public string Email { get; set; }
         public string EmployeeNumber { get; set; }
+        public string Phone { get; set; }
+        public string Prefix { get; set; }
         public string PositionTitle { get; set; }
+        public Gender? Gender { get; set; }
+        public decimal? MinSalary { get; set; }
+        public decimal? MaxSalary { get; set; }
+        public DateTime? BirthdayFrom { get; set; }
+        public DateTime? BirthdayTo { get; set; }
 
         public ListParameter ShapeParameter { get; set; }
     }

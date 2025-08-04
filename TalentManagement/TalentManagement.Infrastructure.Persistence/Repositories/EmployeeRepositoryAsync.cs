@@ -27,13 +27,6 @@
         /// <returns>A tuple containing the paged list of employees and the total number of records.</returns>
         public async Task<(IEnumerable<Entity> data, RecordsCount recordsCount)> GetEmployeeResponseAsync(GetEmployeesQuery requestParameters)
         {
-            //searchable fields
-            var lastName = requestParameters.LastName;
-            var firstName = requestParameters.FirstName;
-            var email = requestParameters.Email;
-            var employeeNumber = requestParameters.EmployeeNumber;
-            var positionTitle = requestParameters.PositionTitle;
-
             var pageNumber = requestParameters.PageNumber;
             var pageSize = requestParameters.PageSize;
             var orderBy = requestParameters.OrderBy;
@@ -43,6 +36,7 @@
 
             // Setup IQueryable
             var result = _repository
+                .Include(e => e.Position)
                 .AsNoTracking()
                 .AsExpandable();
 
@@ -50,7 +44,7 @@
             recordsTotal = await result.CountAsync();
 
             // filter data
-            FilterByColumn(ref result, lastName, firstName, email, positionTitle, employeeNumber);
+            FilterByColumn(ref result, requestParameters);
 
             // Count records after filter
             recordsFiltered = await result.CountAsync();
@@ -118,6 +112,7 @@
 
             // Setup IQueryable
             var result = _repository
+                .Include(e => e.Position)
                 .AsNoTracking()
                 .AsExpandable();
 
@@ -163,39 +158,104 @@
         }
 
         /// <summary>
-        /// Filters an IQueryable of employees based on the provided parameters.
+        /// Filters an IQueryable of employees based on the provided query parameters.
         /// </summary>
         /// <param name="qry">The IQueryable of employees to filter.</param>
-        /// <param name="positionTitle">The employee title to filter by.</param>
-        /// <param name="lastName">The last name to filter by.</param>
-        /// <param name="firstName">The first name to filter by.</param>
-        /// <param name="email">The email to filter by.</param>
-        private void FilterByColumn(ref IQueryable<Employee> qry, string lastName, string firstName, string email, string positionTitle, string employeeNumber)
+        /// <param name="parameters">The query parameters containing filter criteria.</param>
+        private void FilterByColumn(ref IQueryable<Employee> qry, GetEmployeesQuery parameters)
         {
             if (!qry.Any())
                 return;
 
-            if (string.IsNullOrEmpty(lastName) && string.IsNullOrEmpty(firstName) && string.IsNullOrEmpty(email) && string.IsNullOrEmpty(positionTitle) && string.IsNullOrEmpty(employeeNumber))
-                return;
-
             var predicate = PredicateBuilder.New<Employee>();
+            bool hasFilters = false;
 
-            if (!string.IsNullOrEmpty(lastName))
-                predicate = predicate.Or(p => p.LastName.ToLower().Contains(lastName.ToLower().Trim()));
+            // String-based filters
+            if (!string.IsNullOrEmpty(parameters.FirstName))
+            {
+                predicate = predicate.And(p => p.FirstName.ToLower().Contains(parameters.FirstName.ToLower().Trim()));
+                hasFilters = true;
+            }
 
-            if (!string.IsNullOrEmpty(firstName))
-                predicate = predicate.Or(p => p.FirstName.ToLower().Contains(firstName.ToLower().Trim()));
+            if (!string.IsNullOrEmpty(parameters.MiddleName))
+            {
+                predicate = predicate.And(p => p.MiddleName.ToLower().Contains(parameters.MiddleName.ToLower().Trim()));
+                hasFilters = true;
+            }
 
-            if (!string.IsNullOrEmpty(email))
-                predicate = predicate.Or(p => p.Email.ToLower().Contains(email.ToLower().Trim()));
+            if (!string.IsNullOrEmpty(parameters.LastName))
+            {
+                predicate = predicate.And(p => p.LastName.ToLower().Contains(parameters.LastName.ToLower().Trim()));
+                hasFilters = true;
+            }
 
-            if (!string.IsNullOrEmpty(employeeNumber))
-                predicate = predicate.Or(p => p.EmployeeNumber.ToLower().Contains(employeeNumber.ToLower().Trim()));
+            if (!string.IsNullOrEmpty(parameters.Email))
+            {
+                predicate = predicate.And(p => p.Email.ToLower().Contains(parameters.Email.ToLower().Trim()));
+                hasFilters = true;
+            }
 
-            if (!string.IsNullOrEmpty(positionTitle))
-                predicate = predicate.Or(p => p.Position.PositionTitle.ToLower().Contains(positionTitle.ToLower().Trim()));
+            if (!string.IsNullOrEmpty(parameters.EmployeeNumber))
+            {
+                predicate = predicate.And(p => p.EmployeeNumber.ToLower().Contains(parameters.EmployeeNumber.ToLower().Trim()));
+                hasFilters = true;
+            }
 
-            qry = qry.Where(predicate);
+            if (!string.IsNullOrEmpty(parameters.Phone))
+            {
+                predicate = predicate.And(p => p.Phone.ToLower().Contains(parameters.Phone.ToLower().Trim()));
+                hasFilters = true;
+            }
+
+            if (!string.IsNullOrEmpty(parameters.Prefix))
+            {
+                predicate = predicate.And(p => p.Prefix.ToLower().Contains(parameters.Prefix.ToLower().Trim()));
+                hasFilters = true;
+            }
+
+            if (!string.IsNullOrEmpty(parameters.PositionTitle))
+            {
+                predicate = predicate.And(p => p.Position.PositionTitle.ToLower().Contains(parameters.PositionTitle.ToLower().Trim()));
+                hasFilters = true;
+            }
+
+            // Enum filter
+            if (parameters.Gender.HasValue)
+            {
+                predicate = predicate.And(p => p.Gender == parameters.Gender.Value);
+                hasFilters = true;
+            }
+
+            // Salary range filters
+            if (parameters.MinSalary.HasValue)
+            {
+                predicate = predicate.And(p => p.Salary >= parameters.MinSalary.Value);
+                hasFilters = true;
+            }
+
+            if (parameters.MaxSalary.HasValue)
+            {
+                predicate = predicate.And(p => p.Salary <= parameters.MaxSalary.Value);
+                hasFilters = true;
+            }
+
+            // Birthday range filters
+            if (parameters.BirthdayFrom.HasValue)
+            {
+                predicate = predicate.And(p => p.Birthday >= parameters.BirthdayFrom.Value);
+                hasFilters = true;
+            }
+
+            if (parameters.BirthdayTo.HasValue)
+            {
+                predicate = predicate.And(p => p.Birthday <= parameters.BirthdayTo.Value);
+                hasFilters = true;
+            }
+
+            if (hasFilters)
+            {
+                qry = qry.Where(predicate);
+            }
         }
 
         /// <summary>
