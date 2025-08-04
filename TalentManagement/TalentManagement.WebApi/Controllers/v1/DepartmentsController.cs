@@ -3,8 +3,6 @@
 namespace TalentManagement.WebApi.Controllers.v1
 {
     [ApiVersion("1.0")]
-    // Controllers with GroupName
-    [ApiExplorerSettings(GroupName = "Departments")]
     public class DepartmentsController : BaseApiController
     {
         /// <summary>
