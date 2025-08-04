@@ -1,10 +1,19 @@
 ﻿namespace TalentManagement.Application.Interfaces.Repositories
 {
     /// <summary>
-    /// Interface for retrieving paged employee response asynchronously.
+    /// Repository interface for Employee entity with asynchronous methods.
     /// </summary>
     public interface IEmployeeRepositoryAsync : IGenericRepositoryAsync<Employee>
     {
+        /// <summary>
+        /// Checks if the given employee number is unique in the database.
+        /// </summary>
+        /// <param name="employeeNumber">Employee number to check for uniqueness.</param>
+        /// <returns>
+        /// Task indicating whether the employee number is unique.
+        /// </returns>
+        Task<bool> IsUniqueEmployeeNumberAsync(string employeeNumber);
+
         /// <summary>
         /// Retrieves a list of employees based on the provided query parameters asynchronously.
         /// </summary>

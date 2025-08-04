@@ -88,6 +88,19 @@
         }
 
         /// <summary>
+        /// Checks if the given employee number is unique in the database.
+        /// </summary>
+        /// <param name="employeeNumber">Employee number to check for uniqueness.</param>
+        /// <returns>
+        /// Task indicating whether the employee number is unique.
+        /// </returns>
+        public async Task<bool> IsUniqueEmployeeNumberAsync(string employeeNumber)
+        {
+            return await _repository
+                .AllAsync(p => p.EmployeeNumber != employeeNumber);
+        }
+
+        /// <summary>
         /// Retrieves a paged list of employees based on the provided query parameters.
         /// </summary>
         /// <param name="requestParameters">The query parameters used to filter and page the data.</param>

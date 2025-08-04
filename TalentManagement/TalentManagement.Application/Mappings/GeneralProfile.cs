@@ -18,6 +18,8 @@
             CreateMap<SalaryRange, GetSalaryRangesViewModel>().ReverseMap();
             // Maps a CreatePositionCommand to a Position entity.
             CreateMap<CreatePositionCommand, Position>();
+            // Maps a CreateEmployeeCommand to an Employee entity.
+            CreateMap<CreateEmployeeCommand, Employee>();
         }
     }
 }
