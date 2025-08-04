@@ -6,10 +6,46 @@
     <members>
         <member name="M:TalentManagement.WebApi.Controllers.v1.DepartmentsController.Get(TalentManagement.Application.Features.Departments.Queries.GetDepartments.GetDepartmentsQuery)">
             <summary>
-            Gets a list of employees based on the specified filter.
+            Gets a list of departments based on the specified filter.
             </summary>
-            <param name="filter">The filter used to get the list of employees.</param>
-            <returns>A list of employees.</returns>
+            <param name="filter">The filter used to get the list of departments. Supports filtering by Name.</param>
+            <returns>A list of departments.</returns>
+        </member>
+        <member name="M:TalentManagement.WebApi.Controllers.v1.DepartmentsController.Get(System.Guid)">
+            <summary>
+            Gets a department by its Id.
+            </summary>
+            <param name="id">The Id of the department.</param>
+            <returns>The department with the specified Id.</returns>
+        </member>
+        <member name="M:TalentManagement.WebApi.Controllers.v1.DepartmentsController.Post(TalentManagement.Application.Features.Departments.Commands.CreateDepartment.CreateDepartmentCommand)">
+            <summary>
+            Creates a new department.
+            </summary>
+            <param name="command">The command containing the data for the new department.</param>
+            <returns>A 201 Created response containing the newly created department.</returns>
+        </member>
+        <member name="M:TalentManagement.WebApi.Controllers.v1.DepartmentsController.Paged(TalentManagement.Application.Features.Departments.Queries.GetDepartments.PagedDepartmentsQuery)">
+            <summary>
+            Retrieves a paged list of departments.
+            </summary>
+            <param name="query">The query parameters for the paged list.</param>
+            <returns>A paged list of departments.</returns>
+        </member>
+        <member name="M:TalentManagement.WebApi.Controllers.v1.DepartmentsController.Put(System.Guid,TalentManagement.Application.Features.Departments.Commands.UpdateDepartment.UpdateDepartmentCommand)">
+            <summary>
+            Updates a department with the given id using the provided command.
+            </summary>
+            <param name="id">The id of the department to update.</param>
+            <param name="command">The command containing the updated information.</param>
+            <returns>The updated department.</returns>
+        </member>
+        <member name="M:TalentManagement.WebApi.Controllers.v1.DepartmentsController.Delete(System.Guid)">
+            <summary>
+            Deletes a department by its Id.
+            </summary>
+            <param name="id">The Id of the department to delete.</param>
+            <returns>The result of the deletion.</returns>
         </member>
         <member name="M:TalentManagement.WebApi.Controllers.v1.EmployeesController.Get(TalentManagement.Application.Features.Employees.Queries.GetEmployees.GetEmployeesQuery)">
             <summary>
@@ -18,6 +54,20 @@
             <param name="filter">The filter used to get the list of employees.</param>
             <returns>A list of employees.</returns>
         </member>
+        <member name="M:TalentManagement.WebApi.Controllers.v1.EmployeesController.Get(System.Guid)">
+            <summary>
+            Gets an employee by its Id.
+            </summary>
+            <param name="id">The Id of the employee.</param>
+            <returns>The employee with the specified Id.</returns>
+        </member>
+        <member name="M:TalentManagement.WebApi.Controllers.v1.EmployeesController.Post(TalentManagement.Application.Features.Employees.Commands.CreateEmployee.CreateEmployeeCommand)">
+            <summary>
+            Creates a new employee.
+            </summary>
+            <param name="command">The command containing the data for the new employee.</param>
+            <returns>A 201 Created response containing the newly created employee.</returns>
+        </member>
         <member name="M:TalentManagement.WebApi.Controllers.v1.EmployeesController.Paged(TalentManagement.Application.Features.Employees.Queries.GetEmployees.PagedEmployeesQuery)">
             <summary>
             Retrieves a paged list of employees.
@@ -25,6 +75,21 @@
             </summary>
             <param name="query">The query parameters for the paged list.</param>
             <returns>A paged list of employees.</returns>
+        </member>
+        <member name="M:TalentManagement.WebApi.Controllers.v1.EmployeesController.Put(System.Guid,TalentManagement.Application.Features.Employees.Commands.UpdateEmployee.UpdateEmployeeCommand)">
+            <summary>
+            Updates an employee with the given id using the provided command.
+            </summary>
+            <param name="id">The id of the employee to update.</param>
+            <param name="command">The command containing the updated information.</param>
+            <returns>The updated employee.</returns>
+        </member>
+        <member name="M:TalentManagement.WebApi.Controllers.v1.EmployeesController.Delete(System.Guid)">
+            <summary>
+            Deletes an employee by its Id.
+            </summary>
+            <param name="id">The Id of the employee to delete.</param>
+            <returns>The result of the deletion.</returns>
         </member>
         <member name="M:TalentManagement.WebApi.Controllers.v1.PositionsController.Get(TalentManagement.Application.Features.Positions.Queries.GetPositions.GetPositionsQuery)">
             <summary>
@@ -78,10 +143,46 @@
         </member>
         <member name="M:TalentManagement.WebApi.Controllers.v1.SalaryRangesController.Get(TalentManagement.Application.Features.SalaryRanges.Queries.GetSalaryRanges.GetSalaryRangesQuery)">
             <summary>
-            Gets a list of employees based on the specified filter.
+            Gets a list of salary ranges based on the specified filter.
             </summary>
-            <param name="filter">The filter used to get the list of employees.</param>
-            <returns>A list of employees.</returns>
+            <param name="filter">The filter used to get the list of salary ranges. Supports filtering by Name.</param>
+            <returns>A list of salary ranges.</returns>
+        </member>
+        <member name="M:TalentManagement.WebApi.Controllers.v1.SalaryRangesController.Get(System.Guid)">
+            <summary>
+            Gets a salary range by its Id.
+            </summary>
+            <param name="id">The Id of the salary range.</param>
+            <returns>The salary range with the specified Id.</returns>
+        </member>
+        <member name="M:TalentManagement.WebApi.Controllers.v1.SalaryRangesController.Post(TalentManagement.Application.Features.SalaryRanges.Commands.CreateSalaryRange.CreateSalaryRangeCommand)">
+            <summary>
+            Creates a new salary range.
+            </summary>
+            <param name="command">The command containing the data for the new salary range.</param>
+            <returns>A 201 Created response containing the newly created salary range.</returns>
+        </member>
+        <member name="M:TalentManagement.WebApi.Controllers.v1.SalaryRangesController.Paged(TalentManagement.Application.Features.SalaryRanges.Queries.GetSalaryRanges.PagedSalaryRangesQuery)">
+            <summary>
+            Retrieves a paged list of salary ranges.
+            </summary>
+            <param name="query">The query parameters for the paged list.</param>
+            <returns>A paged list of salary ranges.</returns>
+        </member>
+        <member name="M:TalentManagement.WebApi.Controllers.v1.SalaryRangesController.Put(System.Guid,TalentManagement.Application.Features.SalaryRanges.Commands.UpdateSalaryRange.UpdateSalaryRangeCommand)">
+            <summary>
+            Updates a salary range with the given id using the provided command.
+            </summary>
+            <param name="id">The id of the salary range to update.</param>
+            <param name="command">The command containing the updated information.</param>
+            <returns>The updated salary range.</returns>
+        </member>
+        <member name="M:TalentManagement.WebApi.Controllers.v1.SalaryRangesController.Delete(System.Guid)">
+            <summary>
+            Deletes a salary range by its Id.
+            </summary>
+            <param name="id">The Id of the salary range to delete.</param>
+            <returns>The result of the deletion.</returns>
         </member>
     </members>
 </doc>

@@ -1,8 +1,11 @@
-﻿// Defines an asynchronous repository interface for the Department entity
+﻿using TalentManagement.Application.Features.Departments.Queries.GetDepartments;
+
+// Defines an asynchronous repository interface for the Department entity
 namespace TalentManagement.Application.Interfaces.Repositories
 {
     public interface IDepartmentRepositoryAsync : IGenericRepositoryAsync<Department>
     {
-        // Methods inherited from IGenericRepositoryAsync<Department> will be available here, such as AddAsync, UpdateAsync, and DeleteAsync.
+        Task<(IEnumerable<Entity> data, RecordsCount recordsCount)> GetDepartmentReponseAsync(GetDepartmentsQuery requestParameters);
+        Task<(IEnumerable<Entity> data, RecordsCount recordsCount)> PagedDepartmentReponseAsync(PagedDepartmentsQuery requestParameters);
     }
 }

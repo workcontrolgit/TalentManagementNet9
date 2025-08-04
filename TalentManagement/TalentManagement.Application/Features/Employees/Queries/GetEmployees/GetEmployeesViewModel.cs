@@ -64,5 +64,41 @@
         /// Gets or sets the salary of the employee.
         /// </summary>
         public decimal Salary { get; set; }
+
+        /// <summary>
+        /// Gets the full name of the employee (computed property).
+        /// </summary>
+        public string FullName 
+        { 
+            get 
+            {
+                var parts = new List<string>();
+                
+                if (!string.IsNullOrWhiteSpace(Prefix))
+                    parts.Add(Prefix.Trim());
+                    
+                if (!string.IsNullOrWhiteSpace(FirstName))
+                    parts.Add(FirstName.Trim());
+                    
+                if (!string.IsNullOrWhiteSpace(MiddleName))
+                    parts.Add(MiddleName.Trim());
+                    
+                if (!string.IsNullOrWhiteSpace(LastName))
+                    parts.Add(LastName.Trim());
+                
+                return string.Join(" ", parts);
+            }
+        }
+
+        /// <summary>
+        /// Gets the position title of the employee (computed property).
+        /// </summary>
+        public string PositionTitle 
+        { 
+            get 
+            {
+                return Position?.PositionTitle ?? string.Empty;
+            }
+        }
     }
 }

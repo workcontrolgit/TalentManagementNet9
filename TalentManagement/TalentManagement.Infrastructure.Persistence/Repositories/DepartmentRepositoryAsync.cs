@@ -1,16 +1,133 @@
-﻿namespace TalentManagement.Infrastructure.Persistence.Repositories
+﻿using TalentManagement.Application.Features.Departments.Queries.GetDepartments;
+
+namespace TalentManagement.Infrastructure.Persistence.Repositories
 {
     /// <summary>
     /// Represents a repository for asynchronous operations on the Department entity.
     /// </summary>
     public class DepartmentRepositoryAsync : GenericRepositoryAsync<Department>, IDepartmentRepositoryAsync
     {
+        private readonly ApplicationDbContext _dbContext;
+        private readonly DbSet<Department> _repository;
+        private readonly IDataShapeHelper<Department> _dataShaper;
+
         /// <summary>
         /// Initializes a new instance of the DepartmentRepositoryAsync class with the provided database context.
         /// </summary>
         /// <param name="dbContext">The application's DbContext.</param>
-        public DepartmentRepositoryAsync(ApplicationDbContext dbContext) : base(dbContext)
+        public DepartmentRepositoryAsync(ApplicationDbContext dbContext, IDataShapeHelper<Department> dataShaper) : base(dbContext)
         {
+            _dbContext = dbContext;
+            _repository = dbContext.Set<Department>();
+            _dataShaper = dataShaper;
+        }
+
+        public async Task<(IEnumerable<Entity> data, RecordsCount recordsCount)> GetDepartmentReponseAsync(GetDepartmentsQuery requestParameters)
+        {
+            var name = requestParameters.Name;
+
+            var pageNumber = requestParameters.PageNumber;
+            var pageSize = requestParameters.PageSize;
+            var orderBy = requestParameters.OrderBy;
+            var fields = requestParameters.Fields;
+
+            int recordsTotal, recordsFiltered;
+
+            var result = _repository
+                .AsNoTracking()
+                .AsExpandable();
+
+            recordsTotal = await result.CountAsync();
+
+            FilterByColumn(ref result, name);
+
+            recordsFiltered = await result.CountAsync();
+
+            var recordsCount = new RecordsCount
+            {
+                RecordsFiltered = recordsFiltered,
+                RecordsTotal = recordsTotal
+            };
+
+            if (!string.IsNullOrWhiteSpace(orderBy))
+            {
+                result = result.OrderBy(orderBy);
+            }
+
+            if (!string.IsNullOrWhiteSpace(fields))
+            {
+                result = result.Select<Department>("new(" + fields + ")");
+            }
+
+            result = result
+                .Skip((pageNumber - 1) * pageSize)
+                .Take(pageSize);
+
+            var resultData = await result.ToListAsync();
+            var shapeData = _dataShaper.ShapeData(resultData, fields);
+
+            return (shapeData, recordsCount);
+        }
+
+        public async Task<(IEnumerable<Entity> data, RecordsCount recordsCount)> PagedDepartmentReponseAsync(PagedDepartmentsQuery requestParameters)
+        {
+            var pageNumber = requestParameters.PageNumber;
+            var pageSize = requestParameters.PageSize;
+            var orderBy = requestParameters.OrderBy;
+            var fields = requestParameters.Fields;
+
+            int recordsTotal, recordsFiltered;
+
+            var result = _repository
+                .AsNoTracking()
+                .AsExpandable();
+
+            recordsTotal = await result.CountAsync();
+
+            FilterByColumn(ref result, requestParameters.Search.Value);
+
+            recordsFiltered = await result.CountAsync();
+
+            var recordsCount = new RecordsCount
+            {
+                RecordsFiltered = recordsFiltered,
+                RecordsTotal = recordsTotal
+            };
+
+            if (!string.IsNullOrWhiteSpace(orderBy))
+            {
+                result = result.OrderBy(orderBy);
+            }
+
+            if (!string.IsNullOrWhiteSpace(fields))
+            {
+                result = result.Select<Department>("new(" + fields + ")");
+            }
+
+            result = result
+                .Skip((pageNumber - 1) * pageSize)
+                .Take(pageSize);
+
+            var resultData = await result.ToListAsync();
+            var shapeData = _dataShaper.ShapeData(resultData, fields);
+
+            return (shapeData, recordsCount);
+        }
+
+        private void FilterByColumn(ref IQueryable<Department> qry, string keyword)
+        {
+            if (!qry.Any())
+                return;
+
+            if (string.IsNullOrEmpty(keyword))
+                return;
+
+            var predicate = PredicateBuilder.New<Department>();
+
+            if (!string.IsNullOrEmpty(keyword))
+                predicate = predicate.Or(d => d.Name.Contains(keyword.Trim()));
+
+            qry = qry.Where(predicate);
         }
     }
 }
