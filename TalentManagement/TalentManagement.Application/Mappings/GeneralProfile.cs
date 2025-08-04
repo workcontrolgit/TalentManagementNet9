@@ -1,4 +1,6 @@
-﻿namespace TalentManagement.Application.Mappings
+﻿using TalentManagement.Application.Features.Departments.Commands.CreateDepartment;
+
+namespace TalentManagement.Application.Mappings
 {
     // Defines a mapping profile for general mappings between entities and view models.
     public class GeneralProfile : Profile
@@ -20,6 +22,8 @@
             CreateMap<CreatePositionCommand, Position>();
             // Maps a CreateEmployeeCommand to an Employee entity.
             CreateMap<CreateEmployeeCommand, Employee>();
+            // Maps a CreateDepartmentCommand to a Department entity.
+            CreateMap<CreateDepartmentCommand, Department>();
         }
     }
 }

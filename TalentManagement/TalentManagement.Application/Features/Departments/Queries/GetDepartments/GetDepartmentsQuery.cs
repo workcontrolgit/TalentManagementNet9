@@ -5,15 +5,18 @@
     /// BaseRequestParameter - contains paging parameters
     /// To add filter/search parameters, add search properties to the body of this class
     /// </summary>
-    public class GetDepartmentsQuery : ListParameter, IRequest<IEnumerable<GetDepartmentsViewModel>>
+    public class GetDepartmentsQuery : QueryParameter, IRequest<PagedResponse<IEnumerable<Entity>>>
     {
+        /// <summary>
+        /// Property to hold the department name for filtering.
+        /// </summary>
+        public string Name { get; set; }
     }
 
-    public class GetAllDepartmentsQueryHandler : IRequestHandler<GetDepartmentsQuery, IEnumerable<GetDepartmentsViewModel>>
+    public class GetAllDepartmentsQueryHandler : IRequestHandler<GetDepartmentsQuery, PagedResponse<IEnumerable<Entity>>>
     {
         private readonly IDepartmentRepositoryAsync _repository;
         private readonly IModelHelper _modelHelper;
-        private readonly IMapper _mapper;
 
         /// <summary>
         /// Constructor for GetAllDepartmentsQueryHandler class.
@@ -23,11 +26,10 @@
         /// <returns>
         /// GetAllDepartmentsQueryHandler object.
         /// </returns>
-        public GetAllDepartmentsQueryHandler(IDepartmentRepositoryAsync repository, IModelHelper modelHelper, IMapper mapper)
+        public GetAllDepartmentsQueryHandler(IDepartmentRepositoryAsync repository, IModelHelper modelHelper)
         {
             _repository = repository;
             _modelHelper = modelHelper;
-            _mapper = mapper;
         }
 
         /// <summary>
@@ -36,33 +38,33 @@
         /// <param name="request">The GetDepartmentsQuery request.</param>
         /// <param name="cancellationToken">The cancellation token.</param>
         /// <returns>A PagedResponse containing the requested data.</returns>
-        public async Task<IEnumerable<GetDepartmentsViewModel>> Handle(GetDepartmentsQuery request, CancellationToken cancellationToken)
+        public async Task<PagedResponse<IEnumerable<Entity>>> Handle(GetDepartmentsQuery request, CancellationToken cancellationToken)
         {
-            string fields = _modelHelper.GetModelFields<GetDepartmentsViewModel>();
-            string defaultOrderByColumn = "Name";
-
-            string orderBy = string.Empty;
-
-            // if the request orderby is not null
-            if (!string.IsNullOrEmpty(request.OrderBy))
+            var objRequest = request;
+            // verify request fields are valid field and exist in the DTO
+            if (!string.IsNullOrEmpty(objRequest.Fields))
             {
-                // check to make sure order by field is valid and in the view model
-                orderBy = _modelHelper.ValidateModelFields<GetDepartmentsViewModel>(request.OrderBy);
+                //limit to fields in view model
+                objRequest.Fields = _modelHelper.ValidateModelFields<GetDepartmentsViewModel>(objRequest.Fields);
             }
-
-            // if the order by is invalid
-            if (string.IsNullOrEmpty(orderBy))
+            if (string.IsNullOrEmpty(objRequest.Fields))
             {
                 //default fields from view model
-                orderBy = defaultOrderByColumn;
+                objRequest.Fields = _modelHelper.GetModelFields<GetDepartmentsViewModel>();
+            }
+            // verify orderby a valid field and exist in the DTO GetDepartmentsViewModel
+            if (!string.IsNullOrEmpty(objRequest.OrderBy))
+            {
+                //limit to fields in view model
+                objRequest.OrderBy = _modelHelper.ValidateModelFields<GetDepartmentsViewModel>(objRequest.OrderBy);
             }
 
-            var data = await _repository.GetAllShapeAsync(orderBy, fields);
-
-            // automap to ViewModel
-            var viewModel = _mapper.Map<IEnumerable<GetDepartmentsViewModel>>(data);
-
-            return viewModel;
+            // query based on filter
+            var qryResult = await _repository.GetDepartmentReponseAsync(objRequest);
+            var data = qryResult.data;
+            RecordsCount recordCount = qryResult.recordsCount;
+            // response wrapper
+            return new PagedResponse<IEnumerable<Entity>>(data, objRequest.PageNumber, objRequest.PageSize, recordCount);
         }
     }
 }
