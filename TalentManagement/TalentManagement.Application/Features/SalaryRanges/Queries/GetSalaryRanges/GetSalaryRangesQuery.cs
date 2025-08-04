@@ -5,15 +5,18 @@
     /// BaseRequestParameter - contains paging parameters
     /// To add filter/search parameters, add search properties to the body of this class
     /// </summary>
-    public class GetSalaryRangesQuery : ListParameter, IRequest<IEnumerable<GetSalaryRangesViewModel>>
+    public class GetSalaryRangesQuery : QueryParameter, IRequest<PagedResponse<IEnumerable<Entity>>>
     {
+        /// <summary>
+        /// Property to hold the salary range name for filtering.
+        /// </summary>
+        public string Name { get; set; }
     }
 
-    public class GetAllSalaryRangesQueryHandler : IRequestHandler<GetSalaryRangesQuery, IEnumerable<GetSalaryRangesViewModel>>
+    public class GetAllSalaryRangesQueryHandler : IRequestHandler<GetSalaryRangesQuery, PagedResponse<IEnumerable<Entity>>>
     {
         private readonly ISalaryRangeRepositoryAsync _repository;
         private readonly IModelHelper _modelHelper;
-        private readonly IMapper _mapper;
 
         /// <summary>
         /// Constructor for GetAllSalaryRangesQueryHandler class.
@@ -23,11 +26,10 @@
         /// <returns>
         /// GetAllSalaryRangesQueryHandler object.
         /// </returns>
-        public GetAllSalaryRangesQueryHandler(ISalaryRangeRepositoryAsync repository, IModelHelper modelHelper, IMapper mapper)
+        public GetAllSalaryRangesQueryHandler(ISalaryRangeRepositoryAsync repository, IModelHelper modelHelper)
         {
             _repository = repository;
             _modelHelper = modelHelper;
-            _mapper = mapper;
         }
 
         /// <summary>
@@ -36,33 +38,33 @@
         /// <param name="request">The GetSalaryRangesQuery request.</param>
         /// <param name="cancellationToken">The cancellation token.</param>
         /// <returns>A PagedResponse containing the requested data.</returns>
-        public async Task<IEnumerable<GetSalaryRangesViewModel>> Handle(GetSalaryRangesQuery request, CancellationToken cancellationToken)
+        public async Task<PagedResponse<IEnumerable<Entity>>> Handle(GetSalaryRangesQuery request, CancellationToken cancellationToken)
         {
-            string fields = _modelHelper.GetModelFields<GetSalaryRangesViewModel>();
-            string defaultOrderByColumn = "Name";
-
-            string orderBy = string.Empty;
-
-            // if the request orderby is not null
-            if (!string.IsNullOrEmpty(request.OrderBy))
+            var objRequest = request;
+            // verify request fields are valid field and exist in the DTO
+            if (!string.IsNullOrEmpty(objRequest.Fields))
             {
-                // check to make sure order by field is valid and in the view model
-                orderBy = _modelHelper.ValidateModelFields<GetSalaryRangesViewModel>(request.OrderBy);
+                //limit to fields in view model
+                objRequest.Fields = _modelHelper.ValidateModelFields<GetSalaryRangesViewModel>(objRequest.Fields);
             }
-
-            // if the order by is invalid
-            if (string.IsNullOrEmpty(orderBy))
+            if (string.IsNullOrEmpty(objRequest.Fields))
             {
                 //default fields from view model
-                orderBy = defaultOrderByColumn;
+                objRequest.Fields = _modelHelper.GetModelFields<GetSalaryRangesViewModel>();
+            }
+            // verify orderby a valid field and exist in the DTO GetSalaryRangesViewModel
+            if (!string.IsNullOrEmpty(objRequest.OrderBy))
+            {
+                //limit to fields in view model
+                objRequest.OrderBy = _modelHelper.ValidateModelFields<GetSalaryRangesViewModel>(objRequest.OrderBy);
             }
 
-            var data = await _repository.GetAllShapeAsync(orderBy, fields);
-
-            // automap to ViewModel
-            var viewModel = _mapper.Map<IEnumerable<GetSalaryRangesViewModel>>(data);
-
-            return viewModel;
+            // query based on filter
+            var qryResult = await _repository.GetSalaryRangeReponseAsync(objRequest);
+            var data = qryResult.data;
+            RecordsCount recordCount = qryResult.recordsCount;
+            // response wrapper
+            return new PagedResponse<IEnumerable<Entity>>(data, objRequest.PageNumber, objRequest.PageSize, recordCount);
         }
     }
 }

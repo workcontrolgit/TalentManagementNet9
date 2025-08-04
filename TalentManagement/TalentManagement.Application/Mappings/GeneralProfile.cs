@@ -1,4 +1,5 @@
 ﻿using TalentManagement.Application.Features.Departments.Commands.CreateDepartment;
+using TalentManagement.Application.Features.SalaryRanges.Commands.CreateSalaryRange;
 
 namespace TalentManagement.Application.Mappings
 {
@@ -24,6 +25,8 @@ namespace TalentManagement.Application.Mappings
             CreateMap<CreateEmployeeCommand, Employee>();
             // Maps a CreateDepartmentCommand to a Department entity.
             CreateMap<CreateDepartmentCommand, Department>();
+            // Maps a CreateSalaryRangeCommand to a SalaryRange entity.
+            CreateMap<CreateSalaryRangeCommand, SalaryRange>();
         }
     }
 }
