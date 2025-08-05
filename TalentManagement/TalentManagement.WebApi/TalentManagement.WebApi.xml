@@ -227,6 +227,85 @@
             <param name="id">The Id of the salary range to delete.</param>
             <returns>The result of the deletion.</returns>
         </member>
+        <member name="T:TalentManagement.WebApi.Controllers.v1.USAJobsCodeListController">
+            <summary>
+            Controller for accessing USAJobs code lists
+            </summary>
+        </member>
+        <member name="M:TalentManagement.WebApi.Controllers.v1.USAJobsCodeListController.GetOccupationalSeries(System.Threading.CancellationToken)">
+            <summary>
+            Get all occupational series codes
+            </summary>
+            <returns>List of occupational series</returns>
+        </member>
+        <member name="M:TalentManagement.WebApi.Controllers.v1.USAJobsCodeListController.SearchOccupationalSeries(System.String,System.Threading.CancellationToken)">
+            <summary>
+            Search occupational series by keyword
+            </summary>
+            <param name="keyword">Search keyword</param>
+            <returns>Filtered list of occupational series</returns>
+        </member>
+        <member name="M:TalentManagement.WebApi.Controllers.v1.USAJobsCodeListController.GetOccupationalSeriesByCode(System.String,System.Threading.CancellationToken)">
+            <summary>
+            Get a specific occupational series by code
+            </summary>
+            <param name="code">Occupational series code</param>
+            <returns>Occupational series item</returns>
+        </member>
+        <member name="M:TalentManagement.WebApi.Controllers.v1.USAJobsCodeListController.GetPayPlans(System.Threading.CancellationToken)">
+            <summary>
+            Get all pay plan codes
+            </summary>
+            <returns>List of pay plans</returns>
+        </member>
+        <member name="M:TalentManagement.WebApi.Controllers.v1.USAJobsCodeListController.GetHiringPaths(System.Threading.CancellationToken)">
+            <summary>
+            Get all hiring path codes
+            </summary>
+            <returns>List of hiring paths</returns>
+        </member>
+        <member name="M:TalentManagement.WebApi.Controllers.v1.USAJobsCodeListController.GetPositionScheduleTypes(System.Threading.CancellationToken)">
+            <summary>
+            Get all position schedule type codes
+            </summary>
+            <returns>List of position schedule types</returns>
+        </member>
+        <member name="M:TalentManagement.WebApi.Controllers.v1.USAJobsCodeListController.GetWorkSchedules(System.Threading.CancellationToken)">
+            <summary>
+            Get all work schedule codes
+            </summary>
+            <returns>List of work schedules</returns>
+        </member>
+        <member name="M:TalentManagement.WebApi.Controllers.v1.USAJobsCodeListController.GetSecurityClearances(System.Threading.CancellationToken)">
+            <summary>
+            Get all security clearance codes
+            </summary>
+            <returns>List of security clearances</returns>
+        </member>
+        <member name="M:TalentManagement.WebApi.Controllers.v1.USAJobsCodeListController.GetCountries(System.Threading.CancellationToken)">
+            <summary>
+            Get all country codes
+            </summary>
+            <returns>List of countries</returns>
+        </member>
+        <member name="M:TalentManagement.WebApi.Controllers.v1.USAJobsCodeListController.GetPostalCodes(System.Threading.CancellationToken)">
+            <summary>
+            Get all postal code (state) codes
+            </summary>
+            <returns>List of postal codes</returns>
+        </member>
+        <member name="M:TalentManagement.WebApi.Controllers.v1.USAJobsCodeListController.RefreshCodeLists(System.Threading.CancellationToken)">
+            <summary>
+            Refresh all code lists from the USAJobs API
+            </summary>
+            <returns>Success message</returns>
+        </member>
+        <member name="M:TalentManagement.WebApi.Controllers.v1.USAJobsCodeListController.CheckServiceHealth(System.Threading.CancellationToken)">
+            <summary>
+            Check if the USAJobs code list service is available
+            </summary>
+            <returns>Service availability status</returns>
+        </member>
         <member name="M:TalentManagement.WebApi.Controllers.v1.USAJobsController.SearchJobs(TalentManagement.Application.DTOs.External.USAJobs.USAJobsSearchRequest,System.Threading.CancellationToken)">
             <summary>
             Search for jobs from USAJobs API

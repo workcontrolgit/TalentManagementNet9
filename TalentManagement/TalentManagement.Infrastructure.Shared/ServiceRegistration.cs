@@ -28,6 +28,13 @@ namespace TalentManagement.Infrastructure.Shared
             // Register the base service and the cached wrapper
             services.AddScoped<USAJobsService>();
             services.AddScoped<IUSAJobsService, CachedUSAJobsService>();
+            
+            // USAJobs Code List service
+            services.AddHttpClient<USAJobsCodeListService>(client =>
+            {
+                client.Timeout = TimeSpan.FromSeconds(30);
+            });
+            services.AddScoped<IUSAJobsCodeListService, USAJobsCodeListService>();
         }
     }
 }
