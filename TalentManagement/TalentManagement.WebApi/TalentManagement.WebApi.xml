@@ -134,62 +134,6 @@
             <param name="id">The Id of the employee to delete.</param>
             <returns>The result of the deletion.</returns>
         </member>
-        <member name="M:TalentManagement.WebApi.Controllers.v1.JobSearchController.SearchJobs(TalentManagement.Application.Interfaces.JobSearchRequest,System.Threading.CancellationToken)">
-            <summary>
-            Search for jobs across multiple sources (internal and external)
-            </summary>
-            <param name="request">Job search parameters</param>
-            <param name="cancellationToken">Cancellation token</param>
-            <returns>Aggregated job search results</returns>
-        </member>
-        <member name="M:TalentManagement.WebApi.Controllers.v1.JobSearchController.GetJobDetails(System.String,TalentManagement.Application.DTOs.JobAggregation.JobSource,System.Threading.CancellationToken)">
-            <summary>
-            Get detailed information about a specific job
-            </summary>
-            <param name="jobId">Job identifier</param>
-            <param name="source">Job source (Internal, USAJobs, etc.)</param>
-            <param name="cancellationToken">Cancellation token</param>
-            <returns>Detailed job information</returns>
-        </member>
-        <member name="M:TalentManagement.WebApi.Controllers.v1.JobSearchController.GetMatchingCandidates(System.String,TalentManagement.Application.DTOs.JobAggregation.JobSource,System.Threading.CancellationToken)">
-            <summary>
-            Find matching candidates for a specific job
-            </summary>
-            <param name="jobId">Job identifier</param>
-            <param name="source">Job source</param>
-            <param name="cancellationToken">Cancellation token</param>
-            <returns>List of matching candidates with scores</returns>
-        </member>
-        <member name="M:TalentManagement.WebApi.Controllers.v1.JobSearchController.GetRecommendedJobs(System.Guid,System.Int32,System.Threading.CancellationToken)">
-            <summary>
-            Get recommended jobs for a specific employee
-            </summary>
-            <param name="employeeId">Employee identifier</param>
-            <param name="pageSize">Number of recommendations to return</param>
-            <param name="cancellationToken">Cancellation token</param>
-            <returns>Recommended jobs for the employee</returns>
-        </member>
-        <member name="M:TalentManagement.WebApi.Controllers.v1.JobSearchController.GetSourceStatus(System.Threading.CancellationToken)">
-            <summary>
-            Get available job sources and their status
-            </summary>
-            <param name="cancellationToken">Cancellation token</param>
-            <returns>Status of available job sources</returns>
-        </member>
-        <member name="M:TalentManagement.WebApi.Controllers.v1.JobSearchController.SearchJobsGet(System.String,System.String,System.String,System.Int32,System.Int32,System.String,System.String,System.Threading.CancellationToken)">
-            <summary>
-            Search for jobs with GET method for simpler client integration
-            </summary>
-            <param name="keywords">Search keywords</param>
-            <param name="location">Location filter</param>
-            <param name="sources">Comma-separated list of sources (Internal,USAJobs)</param>
-            <param name="page">Page number</param>
-            <param name="pageSize">Results per page</param>
-            <param name="sortBy">Sort field</param>
-            <param name="sortDirection">Sort direction (asc/desc)</param>
-            <param name="cancellationToken">Cancellation token</param>
-            <returns>Job search results</returns>
-        </member>
         <member name="M:TalentManagement.WebApi.Controllers.v1.PositionsController.Get(TalentManagement.Application.Features.Positions.Queries.GetPositions.GetPositionsQuery)">
             <summary>
             Gets a list of positions based on the provided filter.
@@ -282,6 +226,51 @@
             </summary>
             <param name="id">The Id of the salary range to delete.</param>
             <returns>The result of the deletion.</returns>
+        </member>
+        <member name="M:TalentManagement.WebApi.Controllers.v1.USAJobsController.SearchJobs(TalentManagement.Application.DTOs.External.USAJobs.USAJobsSearchRequest,System.Threading.CancellationToken)">
+            <summary>
+            Search for jobs from USAJobs API
+            </summary>
+            <param name="request">Search parameters for USAJobs</param>
+            <param name="cancellationToken">Cancellation token</param>
+            <returns>USAJobs search results</returns>
+        </member>
+        <member name="M:TalentManagement.WebApi.Controllers.v1.USAJobsController.GetJobDetails(System.String,System.Threading.CancellationToken)">
+            <summary>
+            Get detailed information about a specific USAJobs posting
+            </summary>
+            <param name="positionId">USAJobs position ID</param>
+            <param name="cancellationToken">Cancellation token</param>
+            <returns>Detailed job information from USAJobs</returns>
+        </member>
+        <member name="M:TalentManagement.WebApi.Controllers.v1.USAJobsController.CheckHealth(System.Threading.CancellationToken)">
+            <summary>
+            Test connectivity to USAJobs API
+            </summary>
+            <param name="cancellationToken">Cancellation token</param>
+            <returns>API connection status</returns>
+        </member>
+        <member name="M:TalentManagement.WebApi.Controllers.v1.USAJobsController.SearchJobsGet(System.String,System.String,System.Int32,System.Int32,System.String,System.String,System.String,System.String,System.String,System.Threading.CancellationToken)">
+            <summary>
+            Search for USAJobs with GET method for simple integration
+            </summary>
+            <param name="keyword">Search keyword</param>
+            <param name="locationName">Location filter</param>
+            <param name="page">Page number</param>
+            <param name="resultsPerPage">Results per page</param>
+            <param name="sortField">Sort field</param>
+            <param name="sortDirection">Sort direction</param>
+            <param name="organization">Organization filter</param>
+            <param name="payGradeHigh">High pay grade</param>
+            <param name="payGradeLow">Low pay grade</param>
+            <param name="cancellationToken">Cancellation token</param>
+            <returns>USAJobs search results</returns>
+        </member>
+        <member name="M:TalentManagement.WebApi.Controllers.v1.USAJobsController.GetApiInfo">
+            <summary>
+            Get information about USAJobs API usage and limits
+            </summary>
+            <returns>API usage information</returns>
         </member>
     </members>
 </doc>

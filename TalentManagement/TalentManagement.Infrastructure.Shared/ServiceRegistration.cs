@@ -15,7 +15,7 @@ namespace TalentManagement.Infrastructure.Shared
             services.AddTransient<IMockService, MockService>();
             
             // External API services
-            services.AddHttpClient<IUSAJobsService, USAJobsService>(client =>
+            services.AddHttpClient<USAJobsService>(client =>
             {
                 client.DefaultRequestHeaders.Add("User-Agent", "TalentManagement/1.0");
                 client.Timeout = TimeSpan.FromSeconds(30);
@@ -25,8 +25,9 @@ namespace TalentManagement.Infrastructure.Shared
             services.AddMemoryCache();
             services.AddSingleton<ICacheService, MemoryCacheService>();
             
-            // Job aggregation service
-            services.AddScoped<IJobAggregationService, JobAggregationService>();
+            // Register the base service and the cached wrapper
+            services.AddScoped<USAJobsService>();
+            services.AddScoped<IUSAJobsService, CachedUSAJobsService>();
         }
     }
 }

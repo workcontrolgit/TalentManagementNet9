@@ -1,3 +1,5 @@
+using System.Text.Json.Serialization;
+
 namespace TalentManagement.Application.DTOs.External.USAJobs
 {
     public class USAJobsResponse
@@ -18,13 +20,21 @@ namespace TalentManagement.Application.DTOs.External.USAJobs
         public string? LocationName { get; set; }
     }
 
-    public class SearchResult
+    public partial class SearchResult
     {
-        public string? SearchResultCount { get; set; }
-        public string? SearchResultCountAll { get; set; }
-        public List<SearchResultItem>? SearchResultItems { get; set; }
-        public UserArea? UserArea { get; set; }
+        [JsonPropertyName("SearchResultCount")]
+        public long SearchResultCount { get; set; }
+
+        [JsonPropertyName("SearchResultCountAll")]
+        public long SearchResultCountAll { get; set; }
+
+        [JsonPropertyName("SearchResultItems")]
+        public SearchResultItem[] SearchResultItems { get; set; }
+
+
     }
+
+
 
     public class SearchResultItem
     {
@@ -38,23 +48,25 @@ namespace TalentManagement.Application.DTOs.External.USAJobs
         public string? PositionID { get; set; }
         public string? PositionTitle { get; set; }
         public string? PositionURI { get; set; }
-        public DateTime? ApplyURI { get; set; }
+        public List<string>? ApplyURI { get; set; }
         public string? PositionLocationDisplay { get; set; }
         public List<PositionLocation>? PositionLocation { get; set; }
         public string? OrganizationName { get; set; }
         public string? DepartmentName { get; set; }
         public string? SubAgency { get; set; }
-        public string? JobCategory { get; set; }
+        public List<JobCategory>? JobCategory { get; set; }
         public List<JobGrade>? JobGrade { get; set; }
-        public PositionSchedule? PositionSchedule { get; set; }
-        public PositionOfferingType? PositionOfferingType { get; set; }
-        public QualificationSummary? QualificationSummary { get; set; }
-        public PositionRemuneration? PositionRemuneration { get; set; }
+        public List<PositionSchedule>? PositionSchedule { get; set; }
+        public List<PositionOfferingType>? PositionOfferingType { get; set; }
+
+        public string? QualificationSummary { get; set; }
+
+        public List<PositionRemuneration>? PositionRemuneration { get; set; }
         public DateTime? PositionStartDate { get; set; }
         public DateTime? PositionEndDate { get; set; }
         public DateTime? PublicationStartDate { get; set; }
         public DateTime? ApplicationCloseDate { get; set; }
-        public string? PositionFormattedDescription { get; set; }
+        public List<PositionFormattedDescription>? PositionFormattedDescription { get; set; }
         public UserArea? UserArea { get; set; }
     }
 
@@ -74,6 +86,12 @@ namespace TalentManagement.Application.DTOs.External.USAJobs
         public string? Name { get; set; }
     }
 
+    public class JobCategory
+    {
+        public string? Name { get; set; }
+        public string? Code { get; set; }
+    }
+
     public class PositionSchedule
     {
         public string? Name { get; set; }
@@ -86,10 +104,12 @@ namespace TalentManagement.Application.DTOs.External.USAJobs
         public string? Code { get; set; }
     }
 
-    public class QualificationSummary
+    public class PositionFormattedDescription
     {
-        public string? QualificationSummaryText { get; set; }
+        public string? Label { get; set; }
+        public string? LabelDescription { get; set; }
     }
+
 
     public class PositionRemuneration
     {

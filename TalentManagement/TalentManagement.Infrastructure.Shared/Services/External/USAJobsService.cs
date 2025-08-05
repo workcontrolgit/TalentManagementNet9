@@ -37,9 +37,12 @@ namespace TalentManagement.Infrastructure.Shared.Services.External
             _httpClient.BaseAddress = new Uri(_baseUrl);
             _httpClient.DefaultRequestHeaders.Clear();
             _httpClient.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
-            _httpClient.DefaultRequestHeaders.Add("Authorization-Key", _apiKey);
             _httpClient.DefaultRequestHeaders.Add("User-Agent", _userAgent);
+            _httpClient.DefaultRequestHeaders.Add("Authorization-Key", _apiKey);
             _httpClient.Timeout = TimeSpan.FromSeconds(30);
+            
+            _logger.LogDebug("USAJobs HTTP Client configured with BaseUrl: {BaseUrl}, UserAgent: {UserAgent}", 
+                _baseUrl, _userAgent);
         }
 
         public async Task<USAJobsResponse?> SearchJobsAsync(USAJobsSearchRequest request, CancellationToken cancellationToken = default)
@@ -47,7 +50,7 @@ namespace TalentManagement.Infrastructure.Shared.Services.External
             try
             {
                 var queryParams = BuildSearchQueryString(request);
-                var endpoint = $"/search?{queryParams}";
+                var endpoint = $"/api/search?{queryParams}";
 
                 _logger.LogInformation("Searching USAJobs with endpoint: {Endpoint}", endpoint);
 
@@ -55,8 +58,14 @@ namespace TalentManagement.Infrastructure.Shared.Services.External
                 
                 if (!response.IsSuccessStatusCode)
                 {
-                    _logger.LogWarning("USAJobs API returned error status: {StatusCode} - {ReasonPhrase}", 
-                        response.StatusCode, response.ReasonPhrase);
+                    var errorContent = await response.Content.ReadAsStringAsync(cancellationToken);
+                    _logger.LogError("USAJobs API returned error status: {StatusCode} - {ReasonPhrase}. Response: {ErrorContent}", 
+                        response.StatusCode, response.ReasonPhrase, errorContent);
+                    
+                    // For debugging, also log request details
+                    _logger.LogError("Request details - Endpoint: {Endpoint}, Headers: {Headers}", 
+                        endpoint, string.Join(", ", _httpClient.DefaultRequestHeaders.Select(h => $"{h.Key}: {string.Join(", ", h.Value)}")));
+                    
                     return null;
                 }
 
@@ -75,9 +84,9 @@ namespace TalentManagement.Infrastructure.Shared.Services.External
                 };
 
                 var result = JsonSerializer.Deserialize<USAJobsResponse>(content, options);
-                
-                _logger.LogInformation("Successfully retrieved {Count} jobs from USAJobs API", 
-                    result?.SearchResult?.SearchResultItems?.Count ?? 0);
+
+                _logger.LogInformation("Successfully retrieved {Count} jobs from USAJobs API",
+                    result?.SearchResult?.SearchResultItems?.Length ?? 0);
 
                 return result;
             }
@@ -107,7 +116,7 @@ namespace TalentManagement.Infrastructure.Shared.Services.External
         {
             try
             {
-                var endpoint = $"/search?PositionID={Uri.EscapeDataString(positionId)}";
+                var endpoint = $"/api/search?PositionID={Uri.EscapeDataString(positionId)}";
 
                 _logger.LogInformation("Getting job details for position: {PositionId}", positionId);
 
@@ -115,8 +124,9 @@ namespace TalentManagement.Infrastructure.Shared.Services.External
                 
                 if (!response.IsSuccessStatusCode)
                 {
-                    _logger.LogWarning("USAJobs API returned error status: {StatusCode} - {ReasonPhrase}", 
-                        response.StatusCode, response.ReasonPhrase);
+                    var errorContent = await response.Content.ReadAsStringAsync(cancellationToken);
+                    _logger.LogError("USAJobs API returned error status: {StatusCode} - {ReasonPhrase}. Response: {ErrorContent}", 
+                        response.StatusCode, response.ReasonPhrase, errorContent);
                     return null;
                 }
 
