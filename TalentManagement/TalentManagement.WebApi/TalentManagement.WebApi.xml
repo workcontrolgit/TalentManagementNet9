@@ -4,6 +4,49 @@
         <name>TalentManagement.WebApi</name>
     </assembly>
     <members>
+        <member name="M:TalentManagement.WebApi.Controllers.PositionDescriptionsController.GetById(System.Decimal)">
+            <summary>
+            Get Position Description by PdSeqNum
+            </summary>
+            <param name="pdSeqNum">Position Description Sequence Number</param>
+            <returns>Position Description details</returns>
+        </member>
+        <member name="M:TalentManagement.WebApi.Controllers.PositionDescriptionsController.GetPagedListAsync(TalentManagement.Application.Features.PositionDescriptions.Queries.GetPositionDescriptions.GetPositionDescriptionsQuery)">
+            <summary>
+            Get all Position Descriptions with filtering and paging
+            </summary>
+            <param name="filter">Filter parameters</param>
+            <returns>Paged list of Position Descriptions</returns>
+        </member>
+        <member name="M:TalentManagement.WebApi.Controllers.PositionDescriptionsController.GetPagedListForDataTable(TalentManagement.Application.Features.PositionDescriptions.Queries.GetPositionDescriptions.PagedPositionDescriptionsQuery)">
+            <summary>
+            Get Position Descriptions for DataTable
+            </summary>
+            <param name="requestParameters">DataTable request parameters</param>
+            <returns>DataTable response with Position Descriptions</returns>
+        </member>
+        <member name="M:TalentManagement.WebApi.Controllers.PositionDescriptionsController.Create(TalentManagement.Application.Features.PositionDescriptions.Commands.CreatePositionDescription.CreatePositionDescriptionCommand)">
+            <summary>
+            Create a new Position Description
+            </summary>
+            <param name="command">Position Description creation data</param>
+            <returns>Created Position Description PdSeqNum</returns>
+        </member>
+        <member name="M:TalentManagement.WebApi.Controllers.PositionDescriptionsController.Update(System.Decimal,TalentManagement.Application.Features.PositionDescriptions.Commands.UpdatePositionDescription.UpdatePositionDescriptionCommand)">
+            <summary>
+            Update an existing Position Description
+            </summary>
+            <param name="pdSeqNum">Position Description Sequence Number</param>
+            <param name="command">Position Description update data</param>
+            <returns>Success response</returns>
+        </member>
+        <member name="M:TalentManagement.WebApi.Controllers.PositionDescriptionsController.Delete(System.Decimal)">
+            <summary>
+            Delete a Position Description
+            </summary>
+            <param name="pdSeqNum">Position Description Sequence Number</param>
+            <returns>Success response</returns>
+        </member>
         <member name="M:TalentManagement.WebApi.Controllers.v1.DepartmentsController.Get(TalentManagement.Application.Features.Departments.Queries.GetDepartments.GetDepartmentsQuery)">
             <summary>
             Gets a list of departments based on the specified filter.
@@ -183,6 +226,51 @@
             </summary>
             <param name="id">The Id of the salary range to delete.</param>
             <returns>The result of the deletion.</returns>
+        </member>
+        <member name="M:TalentManagement.WebApi.Controllers.v1.USAJobsController.SearchJobs(TalentManagement.Application.DTOs.External.USAJobs.USAJobsSearchRequest,System.Threading.CancellationToken)">
+            <summary>
+            Search for jobs from USAJobs API
+            </summary>
+            <param name="request">Search parameters for USAJobs</param>
+            <param name="cancellationToken">Cancellation token</param>
+            <returns>USAJobs search results</returns>
+        </member>
+        <member name="M:TalentManagement.WebApi.Controllers.v1.USAJobsController.GetJobDetails(System.String,System.Threading.CancellationToken)">
+            <summary>
+            Get detailed information about a specific USAJobs posting
+            </summary>
+            <param name="positionId">USAJobs position ID</param>
+            <param name="cancellationToken">Cancellation token</param>
+            <returns>Detailed job information from USAJobs</returns>
+        </member>
+        <member name="M:TalentManagement.WebApi.Controllers.v1.USAJobsController.CheckHealth(System.Threading.CancellationToken)">
+            <summary>
+            Test connectivity to USAJobs API
+            </summary>
+            <param name="cancellationToken">Cancellation token</param>
+            <returns>API connection status</returns>
+        </member>
+        <member name="M:TalentManagement.WebApi.Controllers.v1.USAJobsController.SearchJobsGet(System.String,System.String,System.Int32,System.Int32,System.String,System.String,System.String,System.String,System.String,System.Threading.CancellationToken)">
+            <summary>
+            Search for USAJobs with GET method for simple integration
+            </summary>
+            <param name="keyword">Search keyword</param>
+            <param name="locationName">Location filter</param>
+            <param name="page">Page number</param>
+            <param name="resultsPerPage">Results per page</param>
+            <param name="sortField">Sort field</param>
+            <param name="sortDirection">Sort direction</param>
+            <param name="organization">Organization filter</param>
+            <param name="payGradeHigh">High pay grade</param>
+            <param name="payGradeLow">Low pay grade</param>
+            <param name="cancellationToken">Cancellation token</param>
+            <returns>USAJobs search results</returns>
+        </member>
+        <member name="M:TalentManagement.WebApi.Controllers.v1.USAJobsController.GetApiInfo">
+            <summary>
+            Get information about USAJobs API usage and limits
+            </summary>
+            <returns>API usage information</returns>
         </member>
     </members>
 </doc>

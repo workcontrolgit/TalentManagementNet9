@@ -4,7 +4,13 @@
       "Bash(dotnet test:*)",
       "Bash(mkdir:*)",
       "Bash(dotnet build)",
-      "Bash(dotnet build:*)"
+      "Bash(dotnet build:*)",
+      "Bash(taskkill:*)",
+      "Bash(dotnet ef:*)",
+      "Bash(cmd /c:*)",
+      "Bash(powershell:*)",
+      "Bash(del usajobs_response.json)",
+      "WebFetch(domain:data.usajobs.gov)"
     ],
     "deny": []
   }

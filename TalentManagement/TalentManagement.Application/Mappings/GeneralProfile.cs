@@ -1,4 +1,8 @@
 ﻿using TalentManagement.Application.Features.Departments.Commands.CreateDepartment;
+using TalentManagement.Application.Features.PositionDescriptions.Commands.CreatePositionDescription;
+using TalentManagement.Application.Features.PositionDescriptions.Commands.UpdatePositionDescription;
+using TalentManagement.Application.Features.PositionDescriptions.Queries.GetPositionDescriptionById;
+using TalentManagement.Application.Features.PositionDescriptions.Queries.GetPositionDescriptions;
 using TalentManagement.Application.Features.SalaryRanges.Commands.CreateSalaryRange;
 
 namespace TalentManagement.Application.Mappings
@@ -19,6 +23,11 @@ namespace TalentManagement.Application.Mappings
 
             // Maps a SalaryRange entity to a GetSalaryRangesViewModel, and vice versa.
             CreateMap<SalaryRange, GetSalaryRangesViewModel>().ReverseMap();
+
+            // Maps a PositionDescription entity to view models, and vice versa.
+            CreateMap<PositionDescription, GetPositionDescriptionsViewModel>().ReverseMap();
+            CreateMap<PositionDescription, GetPositionDescriptionByIdViewModel>().ReverseMap();
+
             // Maps a CreatePositionCommand to a Position entity.
             CreateMap<CreatePositionCommand, Position>();
             // Maps a CreateEmployeeCommand to an Employee entity.
@@ -27,6 +36,10 @@ namespace TalentManagement.Application.Mappings
             CreateMap<CreateDepartmentCommand, Department>();
             // Maps a CreateSalaryRangeCommand to a SalaryRange entity.
             CreateMap<CreateSalaryRangeCommand, SalaryRange>();
+
+            // Maps PositionDescription commands to PositionDescription entity.
+            CreateMap<CreatePositionDescriptionCommand, PositionDescription>();
+            CreateMap<UpdatePositionDescriptionCommand, PositionDescription>();
         }
     }
 }

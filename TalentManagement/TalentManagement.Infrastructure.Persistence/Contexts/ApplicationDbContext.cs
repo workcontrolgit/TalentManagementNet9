@@ -19,6 +19,7 @@
         public DbSet<Position> Positions { get; set; } // Entity set for positions
         public DbSet<Employee> Employees { get; set; } // Entity set for employees
         public DbSet<SalaryRange> SalaryRanges { get; set; } // Entity set for salary ranges
+        public DbSet<PositionDescription> PositionDescriptions { get; set; } // Entity set for position descriptions
 
         public override Task<int> SaveChangesAsync(CancellationToken cancellationToken = new CancellationToken())
         {
