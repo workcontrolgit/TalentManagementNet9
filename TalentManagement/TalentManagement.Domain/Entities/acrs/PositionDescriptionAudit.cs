@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Enterprise.Domain.Entities.Acrs
+namespace TalentManagement.Domain.Entities
 {
     public partial class PositionDescriptionAudit
     {
@@ -42,7 +42,6 @@ namespace Enterprise.Domain.Entities.Acrs
         public string PdBargUnitCode { get; set; }
         public DateTime PdaCreateDate { get; set; }
         public decimal PdCreateId { get; set; }
-        public DateTime PdCreateDate { get; set; }
         public decimal? PdUpdateId { get; set; }
         public DateTime PdUpdateDate { get; set; }
         public string PdEvalStatement { get; set; }

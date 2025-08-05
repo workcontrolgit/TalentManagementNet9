@@ -19,6 +19,7 @@ namespace TalentManagement.Application
             services.AddTransient(typeof(IPipelineBehavior<,>), typeof(ValidationBehavior<,>));
             services.AddScoped<IDataShapeHelper<Position>, DataShapeHelper<Position>>();
             services.AddScoped<IDataShapeHelper<Employee>, DataShapeHelper<Employee>>();
+            services.AddScoped<IDataShapeHelper<PositionDescription>, DataShapeHelper<PositionDescription>>();
             services.AddScoped<IModelHelper, ModelHelper>();
             // * use Scutor to register generic IDataShapeHelper interface for DI and specifying the lifetime of dependencies
             services.Scan(selector => selector

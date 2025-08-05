@@ -1,21 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace Enterprise.Domain.Entities.Acrs
+namespace TalentManagement.Domain.Entities
 {
     public partial class PositionDescription
     {
         public PositionDescription()
         {
-            AcrsOrgTitle = new HashSet<AcrsOrgTitle>();
-            AcrsPosnTitle = new HashSet<AcrsPosnTitle>();
-            PdCareerLadderGrade = new HashSet<PdCareerLadderGrade>();
-            PdCitation = new HashSet<PdCitation>();
-            PdCyberSecurity = new HashSet<PdCyberSecurity>();
-            PdDuties = new HashSet<PdDuties>();
-            PdEvalFactors = new HashSet<PdEvalFactors>();
-            PdRpa = new HashSet<PdRpa>();
-            PdTrackHistory = new HashSet<PdTrackHistory>();
             PositionDescriptionAudit = new HashSet<PositionDescriptionAudit>();
         }
 
@@ -74,17 +65,6 @@ namespace Enterprise.Domain.Entities.Acrs
         public DateTime? PdOriginalEffdt { get; set; }
         public byte[] Guid { get; set; }
 
-        public virtual PdState PdsStateCdNavigation { get; set; }
-        public virtual PdSource PsSourceCodeNavigation { get; set; }
-        public virtual ICollection<AcrsOrgTitle> AcrsOrgTitle { get; set; }
-        public virtual ICollection<AcrsPosnTitle> AcrsPosnTitle { get; set; }
-        public virtual ICollection<PdCareerLadderGrade> PdCareerLadderGrade { get; set; }
-        public virtual ICollection<PdCitation> PdCitation { get; set; }
-        public virtual ICollection<PdCyberSecurity> PdCyberSecurity { get; set; }
-        public virtual ICollection<PdDuties> PdDuties { get; set; }
-        public virtual ICollection<PdEvalFactors> PdEvalFactors { get; set; }
-        public virtual ICollection<PdRpa> PdRpa { get; set; }
-        public virtual ICollection<PdTrackHistory> PdTrackHistory { get; set; }
         public virtual ICollection<PositionDescriptionAudit> PositionDescriptionAudit { get; set; }
     }
 }

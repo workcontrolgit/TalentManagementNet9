@@ -4,7 +4,9 @@
       "Bash(dotnet test:*)",
       "Bash(mkdir:*)",
       "Bash(dotnet build)",
-      "Bash(dotnet build:*)"
+      "Bash(dotnet build:*)",
+      "Bash(taskkill:*)",
+      "Bash(dotnet ef:*)"
     ],
     "deny": []
   }

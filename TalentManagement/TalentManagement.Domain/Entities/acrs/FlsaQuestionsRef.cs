@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace Enterprise.Domain.Entities.Acrs
+namespace TalentManagement.Domain.Entities
 {
     public partial class FlsaQuestionsRef
     {

@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Enterprise.Domain.Entities.Acrs
+namespace TalentManagement.Domain.Entities
 {
     public partial class SspBureauOrgRanges
     {
