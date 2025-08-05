@@ -38,7 +38,7 @@ namespace TalentManagement.Application.DTOs.External.USAJobs
 
     public class SearchResultItem
     {
-        public string? RelevanceRank { get; set; }
+        public int? RelevanceRank { get; set; }
         public MatchedObjectDescriptor? MatchedObjectDescriptor { get; set; }
         public string? MatchedObjectId { get; set; }
     }
@@ -62,10 +62,10 @@ namespace TalentManagement.Application.DTOs.External.USAJobs
         public string? QualificationSummary { get; set; }
 
         public List<PositionRemuneration>? PositionRemuneration { get; set; }
-        public DateTime? PositionStartDate { get; set; }
-        public DateTime? PositionEndDate { get; set; }
-        public DateTime? PublicationStartDate { get; set; }
-        public DateTime? ApplicationCloseDate { get; set; }
+        public string? PositionStartDate { get; set; }
+        public string? PositionEndDate { get; set; }
+        public string? PublicationStartDate { get; set; }
+        public string? ApplicationCloseDate { get; set; }
         public List<PositionFormattedDescription>? PositionFormattedDescription { get; set; }
         public UserArea? UserArea { get; set; }
     }
@@ -76,8 +76,8 @@ namespace TalentManagement.Application.DTOs.External.USAJobs
         public string? CountryCode { get; set; }
         public string? CountrySubDivisionCode { get; set; }
         public string? CityName { get; set; }
-        public decimal? Longitude { get; set; }
-        public decimal? Latitude { get; set; }
+        public double? Longitude { get; set; }
+        public double? Latitude { get; set; }
     }
 
     public class JobGrade
@@ -123,6 +123,7 @@ namespace TalentManagement.Application.DTOs.External.USAJobs
     {
         public Details? Details { get; set; }
         public bool? IsRadialSearch { get; set; }
+        public string? NumberOfPages { get; set; }
     }
 
     public class Details
@@ -132,14 +133,17 @@ namespace TalentManagement.Application.DTOs.External.USAJobs
         public string? LowGrade { get; set; }
         public string? HighGrade { get; set; }
         public string? PromotionPotential { get; set; }
+        public string? SubAgencyName { get; set; }
         public string? OrganizationCodes { get; set; }
         public string? Relocation { get; set; }
-        public string? HiringPath { get; set; }
+        public List<string>? HiringPath { get; set; }
+        public List<object>? MCOTags { get; set; }
         public string? TotalOpenings { get; set; }
         public string? AgencyMarketingStatement { get; set; }
         public string? TravelCode { get; set; }
+        public string? ApplyOnlineUrl { get; set; }
         public string? DetailStatusUrl { get; set; }
-        public string? MajorDuties { get; set; }
+        public List<string>? MajorDuties { get; set; }
         public string? Education { get; set; }
         public string? Requirements { get; set; }
         public string? Evaluations { get; set; }
@@ -148,19 +152,23 @@ namespace TalentManagement.Application.DTOs.External.USAJobs
         public string? RequiredDocuments { get; set; }
         public string? Benefits { get; set; }
         public string? BenefitsUrl { get; set; }
+        public bool? BenefitsDisplayDefaultText { get; set; }
         public string? OtherInformation { get; set; }
-        public string? KeyRequirements { get; set; }
-        public List<string>? WithinArea { get; set; }
+        public List<object>? KeyRequirements { get; set; }
+        public string? WithinArea { get; set; }
         public string? CommuteDistance { get; set; }
-        public List<string>? ServiceType { get; set; }
+        public string? ServiceType { get; set; }
         public string? AnnouncementClosingType { get; set; }
         public string? AgencyContactEmail { get; set; }
         public string? AgencyContactPhone { get; set; }
+        public string? PreviewQuestionnaireurl { get; set; }
         public string? SecurityClearance { get; set; }
-        public string? DrugTest { get; set; }
-        public string? AdjudicationType { get; set; }
-        public string? TeleworkEligible { get; set; }
-        public string? RemoteIndicator { get; set; }
+        public string? DrugTestRequired { get; set; }
+        public List<object>? AdjudicationType { get; set; }
+        public bool? TeleworkEligible { get; set; }
+        public bool? RemoteIndicator { get; set; }
+        public bool? BargainingUnitStatus { get; set; }
+        public string? BargainingUnitStatusAdditionalText { get; set; }
     }
 
     public class WhoMayApply
