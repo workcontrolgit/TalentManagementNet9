@@ -157,7 +157,7 @@ namespace TalentManagement.Infrastructure.Shared.Services.External
         public async Task<List<GeoLocationItem>?> GetGeoLocationsAsync(CancellationToken cancellationToken = default)
         {
             return await GetCodeListAsync<GeoLocationItem>(
-                "/geoloc", 
+                "/geoloccodes", 
                 GEO_LOCATIONS_KEY, 
                 cancellationToken);
         }
