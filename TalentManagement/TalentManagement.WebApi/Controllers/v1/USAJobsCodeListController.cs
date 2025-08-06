@@ -205,33 +205,6 @@ namespace TalentManagement.WebApi.Controllers.v1
             }
         }
 
-        /// <summary>
-        /// Get all work schedule codes
-        /// </summary>
-        /// <returns>List of work schedules</returns>
-        [HttpGet("work-schedules")]
-        [ProducesResponseType(typeof(Response<List<WorkScheduleItem>>), 200)]
-        [ProducesResponseType(typeof(Response<string>), 500)]
-        public async Task<IActionResult> GetWorkSchedules(CancellationToken cancellationToken)
-        {
-            try
-            {
-                var result = await _codeListService.GetWorkSchedulesAsync(cancellationToken);
-                
-                if (result == null)
-                {
-                    return StatusCode(500, new Response<string>("Failed to retrieve work schedules"));
-                }
-
-                return Ok(new Response<List<WorkScheduleItem>>(result, 
-                    $"Retrieved {result.Count} work schedules"));
-            }
-            catch (Exception ex)
-            {
-                _logger.LogError(ex, "Error retrieving work schedules");
-                return StatusCode(500, new Response<string>("An error occurred while retrieving work schedules"));
-            }
-        }
 
         /// <summary>
         /// Get all security clearance codes
@@ -314,6 +287,40 @@ namespace TalentManagement.WebApi.Controllers.v1
             {
                 _logger.LogError(ex, "Error retrieving postal codes");
                 return StatusCode(500, new Response<string>("An error occurred while retrieving postal codes"));
+            }
+        }
+
+        [HttpGet("agency-subelements")]
+        [ProducesResponseType(typeof(Response<List<BaseCodeListItem>>), 200)]
+        public async Task<IActionResult> GetAgencySubelements(CancellationToken cancellationToken)
+        {
+            try
+            {
+                var result = await _codeListService.GetAgencySubelementsAsync(cancellationToken);
+                return Ok(new Response<List<BaseCodeListItem>>(result ?? new List<BaseCodeListItem>(), 
+                    $"Retrieved {result?.Count ?? 0} agency subelements"));
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error retrieving agency subelements");
+                return StatusCode(500, new Response<string>("An error occurred while retrieving agency subelements"));
+            }
+        }
+
+        [HttpGet("gsa-geo-location-codes")]
+        [ProducesResponseType(typeof(Response<List<BaseCodeListItem>>), 200)]
+        public async Task<IActionResult> GetGsaGeoLocationCodes(CancellationToken cancellationToken)
+        {
+            try
+            {
+                var result = await _codeListService.GetGsaGeoLocationCodesAsync(cancellationToken);
+                return Ok(new Response<List<BaseCodeListItem>>(result ?? new List<BaseCodeListItem>(), 
+                    $"Retrieved {result?.Count ?? 0} GSA geo location codes"));
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error retrieving GSA geo location codes");
+                return StatusCode(500, new Response<string>("An error occurred while retrieving GSA geo location codes"));
             }
         }
 

@@ -270,12 +270,6 @@
             </summary>
             <returns>List of position schedule types</returns>
         </member>
-        <member name="M:TalentManagement.WebApi.Controllers.v1.USAJobsCodeListController.GetWorkSchedules(System.Threading.CancellationToken)">
-            <summary>
-            Get all work schedule codes
-            </summary>
-            <returns>List of work schedules</returns>
-        </member>
         <member name="M:TalentManagement.WebApi.Controllers.v1.USAJobsCodeListController.GetSecurityClearances(System.Threading.CancellationToken)">
             <summary>
             Get all security clearance codes
