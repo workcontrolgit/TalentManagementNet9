@@ -324,6 +324,581 @@ namespace TalentManagement.WebApi.Controllers.v1
             }
         }
 
+        [HttpGet("geo-locations")]
+        [ProducesResponseType(typeof(Response<List<GeoLocationItem>>), 200)]
+        [ProducesResponseType(typeof(Response<string>), 500)]
+        public async Task<IActionResult> GetGeoLocations(CancellationToken cancellationToken)
+        {
+            try
+            {
+                var result = await _codeListService.GetGeoLocationsAsync(cancellationToken);
+                
+                if (result == null)
+                {
+                    return StatusCode(500, new Response<string>("Failed to retrieve geo locations"));
+                }
+
+                return Ok(new Response<List<GeoLocationItem>>(result, 
+                    $"Retrieved {result.Count} geo locations"));
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error retrieving geo locations");
+                return StatusCode(500, new Response<string>("An error occurred while retrieving geo locations"));
+            }
+        }
+
+        [HttpGet("travel-requirements")]
+        [ProducesResponseType(typeof(Response<List<TravelRequirementItem>>), 200)]
+        [ProducesResponseType(typeof(Response<string>), 500)]
+        public async Task<IActionResult> GetTravelRequirements(CancellationToken cancellationToken)
+        {
+            try
+            {
+                var result = await _codeListService.GetTravelRequirementsAsync(cancellationToken);
+                
+                if (result == null)
+                {
+                    return StatusCode(500, new Response<string>("Failed to retrieve travel requirements"));
+                }
+
+                return Ok(new Response<List<TravelRequirementItem>>(result, 
+                    $"Retrieved {result.Count} travel requirements"));
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error retrieving travel requirements");
+                return StatusCode(500, new Response<string>("An error occurred while retrieving travel requirements"));
+            }
+        }
+
+        [HttpGet("remote-work-options")]
+        [ProducesResponseType(typeof(Response<List<RemoteWorkItem>>), 200)]
+        [ProducesResponseType(typeof(Response<string>), 500)]
+        public async Task<IActionResult> GetRemoteWorkOptions(CancellationToken cancellationToken)
+        {
+            try
+            {
+                var result = await _codeListService.GetRemoteWorkOptionsAsync(cancellationToken);
+                
+                if (result == null)
+                {
+                    return StatusCode(500, new Response<string>("Failed to retrieve remote work options"));
+                }
+
+                return Ok(new Response<List<RemoteWorkItem>>(result, 
+                    $"Retrieved {result.Count} remote work options"));
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error retrieving remote work options");
+                return StatusCode(500, new Response<string>("An error occurred while retrieving remote work options"));
+            }
+        }
+
+        [HttpGet("country-subdivisions")]
+        [ProducesResponseType(typeof(Response<List<BaseCodeListItem>>), 200)]
+        public async Task<IActionResult> GetCountrySubdivisions(CancellationToken cancellationToken)
+        {
+            try
+            {
+                var result = await _codeListService.GetCountrySubdivisionsAsync(cancellationToken);
+                return Ok(new Response<List<BaseCodeListItem>>(result ?? new List<BaseCodeListItem>(), 
+                    $"Retrieved {result?.Count ?? 0} country subdivisions"));
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error retrieving country subdivisions");
+                return StatusCode(500, new Response<string>("An error occurred while retrieving country subdivisions"));
+            }
+        }
+
+        [HttpGet("travel-percentages")]
+        [ProducesResponseType(typeof(Response<List<BaseCodeListItem>>), 200)]
+        public async Task<IActionResult> GetTravelPercentages(CancellationToken cancellationToken)
+        {
+            try
+            {
+                var result = await _codeListService.GetTravelPercentagesAsync(cancellationToken);
+                return Ok(new Response<List<BaseCodeListItem>>(result ?? new List<BaseCodeListItem>(), 
+                    $"Retrieved {result?.Count ?? 0} travel percentages"));
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error retrieving travel percentages");
+                return StatusCode(500, new Response<string>("An error occurred while retrieving travel percentages"));
+            }
+        }
+
+        [HttpGet("position-offering-types")]
+        [ProducesResponseType(typeof(Response<List<BaseCodeListItem>>), 200)]
+        public async Task<IActionResult> GetPositionOfferingTypes(CancellationToken cancellationToken)
+        {
+            try
+            {
+                var result = await _codeListService.GetPositionOfferingTypesAsync(cancellationToken);
+                return Ok(new Response<List<BaseCodeListItem>>(result ?? new List<BaseCodeListItem>(), 
+                    $"Retrieved {result?.Count ?? 0} position offering types"));
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error retrieving position offering types");
+                return StatusCode(500, new Response<string>("An error occurred while retrieving position offering types"));
+            }
+        }
+
+        [HttpGet("who-may-apply")]
+        [ProducesResponseType(typeof(Response<List<BaseCodeListItem>>), 200)]
+        public async Task<IActionResult> GetWhoMayApply(CancellationToken cancellationToken)
+        {
+            try
+            {
+                var result = await _codeListService.GetWhoMayApplyAsync(cancellationToken);
+                return Ok(new Response<List<BaseCodeListItem>>(result ?? new List<BaseCodeListItem>(), 
+                    $"Retrieved {result?.Count ?? 0} who may apply codes"));
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error retrieving who may apply codes");
+                return StatusCode(500, new Response<string>("An error occurred while retrieving who may apply codes"));
+            }
+        }
+
+        [HttpGet("academic-honors")]
+        [ProducesResponseType(typeof(Response<List<BaseCodeListItem>>), 200)]
+        public async Task<IActionResult> GetAcademicHonors(CancellationToken cancellationToken)
+        {
+            try
+            {
+                var result = await _codeListService.GetAcademicHonorsAsync(cancellationToken);
+                return Ok(new Response<List<BaseCodeListItem>>(result ?? new List<BaseCodeListItem>(), 
+                    $"Retrieved {result?.Count ?? 0} academic honors"));
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error retrieving academic honors");
+                return StatusCode(500, new Response<string>("An error occurred while retrieving academic honors"));
+            }
+        }
+
+        [HttpGet("action-codes")]
+        [ProducesResponseType(typeof(Response<List<BaseCodeListItem>>), 200)]
+        public async Task<IActionResult> GetActionCodes(CancellationToken cancellationToken)
+        {
+            try
+            {
+                var result = await _codeListService.GetActionCodesAsync(cancellationToken);
+                return Ok(new Response<List<BaseCodeListItem>>(result ?? new List<BaseCodeListItem>(), 
+                    $"Retrieved {result?.Count ?? 0} action codes"));
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error retrieving action codes");
+                return StatusCode(500, new Response<string>("An error occurred while retrieving action codes"));
+            }
+        }
+
+        [HttpGet("degree-type-codes")]
+        [ProducesResponseType(typeof(Response<List<BaseCodeListItem>>), 200)]
+        public async Task<IActionResult> GetDegreeTypeCodes(CancellationToken cancellationToken)
+        {
+            try
+            {
+                var result = await _codeListService.GetDegreeTypeCodesAsync(cancellationToken);
+                return Ok(new Response<List<BaseCodeListItem>>(result ?? new List<BaseCodeListItem>(), 
+                    $"Retrieved {result?.Count ?? 0} degree type codes"));
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error retrieving degree type codes");
+                return StatusCode(500, new Response<string>("An error occurred while retrieving degree type codes"));
+            }
+        }
+
+        [HttpGet("document-formats")]
+        [ProducesResponseType(typeof(Response<List<BaseCodeListItem>>), 200)]
+        public async Task<IActionResult> GetDocumentFormats(CancellationToken cancellationToken)
+        {
+            try
+            {
+                var result = await _codeListService.GetDocumentFormatsAsync(cancellationToken);
+                return Ok(new Response<List<BaseCodeListItem>>(result ?? new List<BaseCodeListItem>(), 
+                    $"Retrieved {result?.Count ?? 0} document formats"));
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error retrieving document formats");
+                return StatusCode(500, new Response<string>("An error occurred while retrieving document formats"));
+            }
+        }
+
+        [HttpGet("race-codes")]
+        [ProducesResponseType(typeof(Response<List<BaseCodeListItem>>), 200)]
+        public async Task<IActionResult> GetRaceCodes(CancellationToken cancellationToken)
+        {
+            try
+            {
+                var result = await _codeListService.GetRaceCodesAsync(cancellationToken);
+                return Ok(new Response<List<BaseCodeListItem>>(result ?? new List<BaseCodeListItem>(), 
+                    $"Retrieved {result?.Count ?? 0} race codes"));
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error retrieving race codes");
+                return StatusCode(500, new Response<string>("An error occurred while retrieving race codes"));
+            }
+        }
+
+        [HttpGet("ethnicities")]
+        [ProducesResponseType(typeof(Response<List<BaseCodeListItem>>), 200)]
+        public async Task<IActionResult> GetEthnicities(CancellationToken cancellationToken)
+        {
+            try
+            {
+                var result = await _codeListService.GetEthnicitiesAsync(cancellationToken);
+                return Ok(new Response<List<BaseCodeListItem>>(result ?? new List<BaseCodeListItem>(), 
+                    $"Retrieved {result?.Count ?? 0} ethnicities"));
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error retrieving ethnicities");
+                return StatusCode(500, new Response<string>("An error occurred while retrieving ethnicities"));
+            }
+        }
+
+        [HttpGet("documentations")]
+        [ProducesResponseType(typeof(Response<List<BaseCodeListItem>>), 200)]
+        public async Task<IActionResult> GetDocumentations(CancellationToken cancellationToken)
+        {
+            try
+            {
+                var result = await _codeListService.GetDocumentationsAsync(cancellationToken);
+                return Ok(new Response<List<BaseCodeListItem>>(result ?? new List<BaseCodeListItem>(), 
+                    $"Retrieved {result?.Count ?? 0} documentations"));
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error retrieving documentations");
+                return StatusCode(500, new Response<string>("An error occurred while retrieving documentations"));
+            }
+        }
+
+        [HttpGet("federal-employment-statuses")]
+        [ProducesResponseType(typeof(Response<List<BaseCodeListItem>>), 200)]
+        public async Task<IActionResult> GetFederalEmploymentStatuses(CancellationToken cancellationToken)
+        {
+            try
+            {
+                var result = await _codeListService.GetFederalEmploymentStatusesAsync(cancellationToken);
+                return Ok(new Response<List<BaseCodeListItem>>(result ?? new List<BaseCodeListItem>(), 
+                    $"Retrieved {result?.Count ?? 0} federal employment statuses"));
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error retrieving federal employment statuses");
+                return StatusCode(500, new Response<string>("An error occurred while retrieving federal employment statuses"));
+            }
+        }
+
+        [HttpGet("language-proficiencies")]
+        [ProducesResponseType(typeof(Response<List<BaseCodeListItem>>), 200)]
+        public async Task<IActionResult> GetLanguageProficiencies(CancellationToken cancellationToken)
+        {
+            try
+            {
+                var result = await _codeListService.GetLanguageProficienciesAsync(cancellationToken);
+                return Ok(new Response<List<BaseCodeListItem>>(result ?? new List<BaseCodeListItem>(), 
+                    $"Retrieved {result?.Count ?? 0} language proficiencies"));
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error retrieving language proficiencies");
+                return StatusCode(500, new Response<string>("An error occurred while retrieving language proficiencies"));
+            }
+        }
+
+        [HttpGet("language-codes")]
+        [ProducesResponseType(typeof(Response<List<BaseCodeListItem>>), 200)]
+        public async Task<IActionResult> GetLanguageCodes(CancellationToken cancellationToken)
+        {
+            try
+            {
+                var result = await _codeListService.GetLanguageCodesAsync(cancellationToken);
+                return Ok(new Response<List<BaseCodeListItem>>(result ?? new List<BaseCodeListItem>(), 
+                    $"Retrieved {result?.Count ?? 0} language codes"));
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error retrieving language codes");
+                return StatusCode(500, new Response<string>("An error occurred while retrieving language codes"));
+            }
+        }
+
+        [HttpGet("military-status-codes")]
+        [ProducesResponseType(typeof(Response<List<BaseCodeListItem>>), 200)]
+        public async Task<IActionResult> GetMilitaryStatusCodes(CancellationToken cancellationToken)
+        {
+            try
+            {
+                var result = await _codeListService.GetMilitaryStatusCodesAsync(cancellationToken);
+                return Ok(new Response<List<BaseCodeListItem>>(result ?? new List<BaseCodeListItem>(), 
+                    $"Retrieved {result?.Count ?? 0} military status codes"));
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error retrieving military status codes");
+                return StatusCode(500, new Response<string>("An error occurred while retrieving military status codes"));
+            }
+        }
+
+        [HttpGet("referee-type-codes")]
+        [ProducesResponseType(typeof(Response<List<BaseCodeListItem>>), 200)]
+        public async Task<IActionResult> GetRefereeTypeCodes(CancellationToken cancellationToken)
+        {
+            try
+            {
+                var result = await _codeListService.GetRefereeTypeCodesAsync(cancellationToken);
+                return Ok(new Response<List<BaseCodeListItem>>(result ?? new List<BaseCodeListItem>(), 
+                    $"Retrieved {result?.Count ?? 0} referee type codes"));
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error retrieving referee type codes");
+                return StatusCode(500, new Response<string>("An error occurred while retrieving referee type codes"));
+            }
+        }
+
+        [HttpGet("special-hirings")]
+        [ProducesResponseType(typeof(Response<List<BaseCodeListItem>>), 200)]
+        public async Task<IActionResult> GetSpecialHirings(CancellationToken cancellationToken)
+        {
+            try
+            {
+                var result = await _codeListService.GetSpecialHiringsAsync(cancellationToken);
+                return Ok(new Response<List<BaseCodeListItem>>(result ?? new List<BaseCodeListItem>(), 
+                    $"Retrieved {result?.Count ?? 0} special hirings"));
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error retrieving special hirings");
+                return StatusCode(500, new Response<string>("An error occurred while retrieving special hirings"));
+            }
+        }
+
+        [HttpGet("remuneration-rate-interval-codes")]
+        [ProducesResponseType(typeof(Response<List<BaseCodeListItem>>), 200)]
+        public async Task<IActionResult> GetRemunerationRateIntervalCodes(CancellationToken cancellationToken)
+        {
+            try
+            {
+                var result = await _codeListService.GetRemunerationRateIntervalCodesAsync(cancellationToken);
+                return Ok(new Response<List<BaseCodeListItem>>(result ?? new List<BaseCodeListItem>(), 
+                    $"Retrieved {result?.Count ?? 0} remuneration rate interval codes"));
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error retrieving remuneration rate interval codes");
+                return StatusCode(500, new Response<string>("An error occurred while retrieving remuneration rate interval codes"));
+            }
+        }
+
+        [HttpGet("application-statuses")]
+        [ProducesResponseType(typeof(Response<List<BaseCodeListItem>>), 200)]
+        public async Task<IActionResult> GetApplicationStatuses(CancellationToken cancellationToken)
+        {
+            try
+            {
+                var result = await _codeListService.GetApplicationStatusesAsync(cancellationToken);
+                return Ok(new Response<List<BaseCodeListItem>>(result ?? new List<BaseCodeListItem>(), 
+                    $"Retrieved {result?.Count ?? 0} application statuses"));
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error retrieving application statuses");
+                return StatusCode(500, new Response<string>("An error occurred while retrieving application statuses"));
+            }
+        }
+
+        [HttpGet("academic-levels")]
+        [ProducesResponseType(typeof(Response<List<BaseCodeListItem>>), 200)]
+        public async Task<IActionResult> GetAcademicLevels(CancellationToken cancellationToken)
+        {
+            try
+            {
+                var result = await _codeListService.GetAcademicLevelsAsync(cancellationToken);
+                return Ok(new Response<List<BaseCodeListItem>>(result ?? new List<BaseCodeListItem>(), 
+                    $"Retrieved {result?.Count ?? 0} academic levels"));
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error retrieving academic levels");
+                return StatusCode(500, new Response<string>("An error occurred while retrieving academic levels"));
+            }
+        }
+
+        [HttpGet("key-standard-requirements")]
+        [ProducesResponseType(typeof(Response<List<BaseCodeListItem>>), 200)]
+        public async Task<IActionResult> GetKeyStandardRequirements(CancellationToken cancellationToken)
+        {
+            try
+            {
+                var result = await _codeListService.GetKeyStandardRequirementsAsync(cancellationToken);
+                return Ok(new Response<List<BaseCodeListItem>>(result ?? new List<BaseCodeListItem>(), 
+                    $"Retrieved {result?.Count ?? 0} key standard requirements"));
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error retrieving key standard requirements");
+                return StatusCode(500, new Response<string>("An error occurred while retrieving key standard requirements"));
+            }
+        }
+
+        [HttpGet("required-standard-documents")]
+        [ProducesResponseType(typeof(Response<List<BaseCodeListItem>>), 200)]
+        public async Task<IActionResult> GetRequiredStandardDocuments(CancellationToken cancellationToken)
+        {
+            try
+            {
+                var result = await _codeListService.GetRequiredStandardDocumentsAsync(cancellationToken);
+                return Ok(new Response<List<BaseCodeListItem>>(result ?? new List<BaseCodeListItem>(), 
+                    $"Retrieved {result?.Count ?? 0} required standard documents"));
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error retrieving required standard documents");
+                return StatusCode(500, new Response<string>("An error occurred while retrieving required standard documents"));
+            }
+        }
+
+        [HttpGet("disabilities")]
+        [ProducesResponseType(typeof(Response<List<BaseCodeListItem>>), 200)]
+        public async Task<IActionResult> GetDisabilities(CancellationToken cancellationToken)
+        {
+            try
+            {
+                var result = await _codeListService.GetDisabilitiesAsync(cancellationToken);
+                return Ok(new Response<List<BaseCodeListItem>>(result ?? new List<BaseCodeListItem>(), 
+                    $"Retrieved {result?.Count ?? 0} disabilities"));
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error retrieving disabilities");
+                return StatusCode(500, new Response<string>("An error occurred while retrieving disabilities"));
+            }
+        }
+
+        [HttpGet("applicant-suppliers")]
+        [ProducesResponseType(typeof(Response<List<BaseCodeListItem>>), 200)]
+        public async Task<IActionResult> GetApplicantSuppliers(CancellationToken cancellationToken)
+        {
+            try
+            {
+                var result = await _codeListService.GetApplicantSuppliersAsync(cancellationToken);
+                return Ok(new Response<List<BaseCodeListItem>>(result ?? new List<BaseCodeListItem>(), 
+                    $"Retrieved {result?.Count ?? 0} applicant suppliers"));
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error retrieving applicant suppliers");
+                return StatusCode(500, new Response<string>("An error occurred while retrieving applicant suppliers"));
+            }
+        }
+
+        [HttpGet("mission-critical-codes")]
+        [ProducesResponseType(typeof(Response<List<BaseCodeListItem>>), 200)]
+        public async Task<IActionResult> GetMissionCriticalCodes(CancellationToken cancellationToken)
+        {
+            try
+            {
+                var result = await _codeListService.GetMissionCriticalCodesAsync(cancellationToken);
+                return Ok(new Response<List<BaseCodeListItem>>(result ?? new List<BaseCodeListItem>(), 
+                    $"Retrieved {result?.Count ?? 0} mission critical codes"));
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error retrieving mission critical codes");
+                return StatusCode(500, new Response<string>("An error occurred while retrieving mission critical codes"));
+            }
+        }
+
+        [HttpGet("announcement-closing-types")]
+        [ProducesResponseType(typeof(Response<List<BaseCodeListItem>>), 200)]
+        public async Task<IActionResult> GetAnnouncementClosingTypes(CancellationToken cancellationToken)
+        {
+            try
+            {
+                var result = await _codeListService.GetAnnouncementClosingTypesAsync(cancellationToken);
+                return Ok(new Response<List<BaseCodeListItem>>(result ?? new List<BaseCodeListItem>(), 
+                    $"Retrieved {result?.Count ?? 0} announcement closing types"));
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error retrieving announcement closing types");
+                return StatusCode(500, new Response<string>("An error occurred while retrieving announcement closing types"));
+            }
+        }
+
+        [HttpGet("service-types")]
+        [ProducesResponseType(typeof(Response<List<BaseCodeListItem>>), 200)]
+        public async Task<IActionResult> GetServiceTypes(CancellationToken cancellationToken)
+        {
+            try
+            {
+                var result = await _codeListService.GetServiceTypesAsync(cancellationToken);
+                return Ok(new Response<List<BaseCodeListItem>>(result ?? new List<BaseCodeListItem>(), 
+                    $"Retrieved {result?.Count ?? 0} service types"));
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error retrieving service types");
+                return StatusCode(500, new Response<string>("An error occurred while retrieving service types"));
+            }
+        }
+
+        [HttpGet("location-expansions")]
+        [ProducesResponseType(typeof(Response<List<BaseCodeListItem>>), 200)]
+        public async Task<IActionResult> GetLocationExpansions(CancellationToken cancellationToken)
+        {
+            try
+            {
+                var result = await _codeListService.GetLocationExpansionsAsync(cancellationToken);
+                return Ok(new Response<List<BaseCodeListItem>>(result ?? new List<BaseCodeListItem>(), 
+                    $"Retrieved {result?.Count ?? 0} location expansions"));
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error retrieving location expansions");
+                return StatusCode(500, new Response<string>("An error occurred while retrieving location expansions"));
+            }
+        }
+
+        [HttpGet("pay-plans/{code}")]
+        [ProducesResponseType(typeof(Response<PayPlanItem>), 200)]
+        [ProducesResponseType(typeof(Response<string>), 404)]
+        [ProducesResponseType(typeof(Response<string>), 500)]
+        public async Task<IActionResult> GetPayPlanByCode(
+            string code, 
+            CancellationToken cancellationToken)
+        {
+            try
+            {
+                var result = await _codeListService.GetPayPlanByCodeAsync(code, cancellationToken);
+                
+                if (result == null)
+                {
+                    return NotFound(new Response<string>($"Pay plan with code '{code}' not found"));
+                }
+
+                return Ok(new Response<PayPlanItem>(result, 
+                    $"Retrieved pay plan: {code}"));
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error retrieving pay plan by code: {Code}", code);
+                return StatusCode(500, new Response<string>("An error occurred while retrieving pay plan"));
+            }
+        }
+
         /// <summary>
         /// Refresh all code lists from the USAJobs API
         /// </summary>
