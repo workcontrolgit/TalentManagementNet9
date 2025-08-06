@@ -7,6 +7,9 @@
 
 
   <ItemGroup>
+    <Compile Remove="Entities\acrs\**" />
+    <EmbeddedResource Remove="Entities\acrs\**" />
+    <None Remove="Entities\acrs\**" />
   </ItemGroup>
 
 </Project>

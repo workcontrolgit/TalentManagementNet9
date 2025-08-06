@@ -1,4 +1,3 @@
-using TalentManagement.Infrastructure.Persistence.Configurations;
 
 internal static class ApplicationDbContextHelpers
 {
@@ -83,10 +82,5 @@ internal static class ApplicationDbContextHelpers
             entity.Property(e => e.MinSalary).HasColumnType("decimal(18, 2)"); // MinSalary is a decimal with precision 18 and scale 2
         });
 
-        // Configure PositionDescription entity
-        modelBuilder.ApplyConfiguration(new PositionDescriptionConfiguration());
-        
-        // Configure PositionDescriptionAudit entity
-        modelBuilder.ApplyConfiguration(new PositionDescriptionAuditConfiguration());
     }
 }

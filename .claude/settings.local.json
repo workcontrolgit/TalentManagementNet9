@@ -10,7 +10,8 @@
       "Bash(cmd /c:*)",
       "Bash(powershell:*)",
       "Bash(del usajobs_response.json)",
-      "WebFetch(domain:data.usajobs.gov)"
+      "WebFetch(domain:data.usajobs.gov)",
+      "Bash(rm:*)"
     ],
     "deny": []
   }
