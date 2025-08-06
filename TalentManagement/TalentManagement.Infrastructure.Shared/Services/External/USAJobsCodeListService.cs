@@ -14,10 +14,10 @@ namespace TalentManagement.Infrastructure.Shared.Services.External
         private readonly ICacheService _cacheService;
         private readonly ILogger<USAJobsCodeListService> _logger;
         private readonly IConfiguration _configuration;
-        
         private readonly string _apiKey;
         private readonly string _userAgent;
         private readonly string _baseUrl;
+        
         private readonly TimeSpan _cacheExpiration;
         
         // Cache keys
@@ -43,11 +43,11 @@ namespace TalentManagement.Infrastructure.Shared.Services.External
             _cacheService = cacheService;
             _logger = logger;
             _configuration = configuration;
-
+            
             _apiKey = _configuration["USAJobs:ApiKey"] ?? throw new InvalidOperationException("USAJobs API Key not configured");
             _userAgent = _configuration["USAJobs:UserAgent"] ?? "TalentManagement/1.0";
-            _baseUrl = _configuration.GetValue<string>("USAJobs:BaseUrl", "https://data.usajobs.gov/api");
-            
+            _baseUrl = _configuration["USAJobs:CodeListBaseUrl"] ?? "https://data.usajobs.gov/api/codelist";
+
             // Code lists change infrequently, so cache for longer (4 hours default)
             _cacheExpiration = TimeSpan.FromHours(
                 _configuration.GetValue<int>("USAJobs:CacheSettings:CodeListExpirationHours", 4));
@@ -62,16 +62,16 @@ namespace TalentManagement.Infrastructure.Shared.Services.External
             _httpClient.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
             _httpClient.DefaultRequestHeaders.Add("User-Agent", _userAgent);
             _httpClient.DefaultRequestHeaders.Add("Authorization-Key", _apiKey);
-            _httpClient.Timeout = TimeSpan.FromSeconds(30);
             
-            _logger.LogDebug("USAJobs CodeList HTTP Client configured with BaseUrl: {BaseUrl}, UserAgent: {UserAgent}", 
+            _logger.LogInformation("USAJobs CodeList HTTP Client configured with BaseUrl: {BaseUrl}, UserAgent: {UserAgent}", 
                 _baseUrl, _userAgent);
         }
+
 
         public async Task<List<OccupationalSeriesItem>?> GetOccupationalSeriesAsync(CancellationToken cancellationToken = default)
         {
             return await GetCodeListAsync<OccupationalSeriesItem>(
-                "/codelist/occupationalseries", 
+                "/occupationalseries", 
                 OCCUPATIONAL_SERIES_KEY, 
                 cancellationToken);
         }
@@ -79,7 +79,7 @@ namespace TalentManagement.Infrastructure.Shared.Services.External
         public async Task<List<PayPlanItem>?> GetPayPlansAsync(CancellationToken cancellationToken = default)
         {
             return await GetCodeListAsync<PayPlanItem>(
-                "/codelist/payplans", 
+                "/payplans", 
                 PAY_PLANS_KEY, 
                 cancellationToken);
         }
@@ -87,7 +87,7 @@ namespace TalentManagement.Infrastructure.Shared.Services.External
         public async Task<List<HiringPathItem>?> GetHiringPathsAsync(CancellationToken cancellationToken = default)
         {
             return await GetCodeListAsync<HiringPathItem>(
-                "/codelist/hiringpaths", 
+                "/hiringpaths", 
                 HIRING_PATHS_KEY, 
                 cancellationToken);
         }
@@ -95,7 +95,7 @@ namespace TalentManagement.Infrastructure.Shared.Services.External
         public async Task<List<PositionScheduleTypeItem>?> GetPositionScheduleTypesAsync(CancellationToken cancellationToken = default)
         {
             return await GetCodeListAsync<PositionScheduleTypeItem>(
-                "/codelist/positionscheduletypes", 
+                "/positionscheduletypes", 
                 POSITION_SCHEDULE_TYPES_KEY, 
                 cancellationToken);
         }
@@ -103,7 +103,7 @@ namespace TalentManagement.Infrastructure.Shared.Services.External
         public async Task<List<WorkScheduleItem>?> GetWorkSchedulesAsync(CancellationToken cancellationToken = default)
         {
             return await GetCodeListAsync<WorkScheduleItem>(
-                "/codelist/workschedules", 
+                "/workschedules", 
                 WORK_SCHEDULES_KEY, 
                 cancellationToken);
         }
@@ -111,7 +111,7 @@ namespace TalentManagement.Infrastructure.Shared.Services.External
         public async Task<List<SecurityClearanceItem>?> GetSecurityClearancesAsync(CancellationToken cancellationToken = default)
         {
             return await GetCodeListAsync<SecurityClearanceItem>(
-                "/codelist/securityclearances", 
+                "/securityclearances", 
                 SECURITY_CLEARANCES_KEY, 
                 cancellationToken);
         }
@@ -119,7 +119,7 @@ namespace TalentManagement.Infrastructure.Shared.Services.External
         public async Task<List<CountryItem>?> GetCountriesAsync(CancellationToken cancellationToken = default)
         {
             return await GetCodeListAsync<CountryItem>(
-                "/codelist/countries", 
+                "/countries", 
                 COUNTRIES_KEY, 
                 cancellationToken);
         }
@@ -127,7 +127,7 @@ namespace TalentManagement.Infrastructure.Shared.Services.External
         public async Task<List<PostalCodeItem>?> GetPostalCodesAsync(CancellationToken cancellationToken = default)
         {
             return await GetCodeListAsync<PostalCodeItem>(
-                "/codelist/postalcodes", 
+                "/postalcodes", 
                 POSTAL_CODES_KEY, 
                 cancellationToken);
         }
@@ -135,7 +135,7 @@ namespace TalentManagement.Infrastructure.Shared.Services.External
         public async Task<List<GeoLocationItem>?> GetGeoLocationsAsync(CancellationToken cancellationToken = default)
         {
             return await GetCodeListAsync<GeoLocationItem>(
-                "/codelist/geoloc", 
+                "/geoloc", 
                 GEO_LOCATIONS_KEY, 
                 cancellationToken);
         }
@@ -143,7 +143,7 @@ namespace TalentManagement.Infrastructure.Shared.Services.External
         public async Task<List<TravelRequirementItem>?> GetTravelRequirementsAsync(CancellationToken cancellationToken = default)
         {
             return await GetCodeListAsync<TravelRequirementItem>(
-                "/codelist/travelrequirements", 
+                "/travelrequirements", 
                 TRAVEL_REQUIREMENTS_KEY, 
                 cancellationToken);
         }
@@ -151,7 +151,7 @@ namespace TalentManagement.Infrastructure.Shared.Services.External
         public async Task<List<RemoteWorkItem>?> GetRemoteWorkOptionsAsync(CancellationToken cancellationToken = default)
         {
             return await GetCodeListAsync<RemoteWorkItem>(
-                "/codelist/remotework", 
+                "/remotework", 
                 REMOTE_WORK_KEY, 
                 cancellationToken);
         }
@@ -222,7 +222,7 @@ namespace TalentManagement.Infrastructure.Shared.Services.External
             try
             {
                 // Test with a simple endpoint
-                var response = await _httpClient.GetAsync("/codelist/occupationalseries", cancellationToken);
+                var response = await _httpClient.GetAsync("/occupationalseries", cancellationToken);
                 return response.IsSuccessStatusCode;
             }
             catch (Exception ex)
@@ -241,9 +241,11 @@ namespace TalentManagement.Infrastructure.Shared.Services.External
                 {
                     try
                     {
-                        _logger.LogDebug("Fetching code list from USAJobs API: {Endpoint}", endpoint);
+                        var fullUrl = $"{_httpClient.BaseAddress?.ToString().TrimEnd('/')}{endpoint}";
+                        _logger.LogInformation("Fetching code list from USAJobs API: {FullUrl} (BaseAddress: {BaseAddress}, Endpoint: {Endpoint})", 
+                            fullUrl, _httpClient.BaseAddress, endpoint);
                         
-                        var response = await _httpClient.GetAsync(endpoint, cancellationToken);
+                        var response = await _httpClient.GetAsync(fullUrl, cancellationToken);
                         
                         if (!response.IsSuccessStatusCode)
                         {
@@ -268,7 +270,9 @@ namespace TalentManagement.Infrastructure.Shared.Services.External
 
                         var codeListResponse = JsonSerializer.Deserialize<USAJobsCodeListResponse<T>>(content, options);
                         
-                        var items = codeListResponse?.CodeList?.ToList();
+                        var items = codeListResponse?.CodeList?
+                            .SelectMany(item => item.ValidValue ?? new List<T>())
+                            .ToList();
 
                         _logger.LogInformation("Successfully retrieved {Count} items from USAJobs CodeList: {Endpoint}", 
                             items?.Count ?? 0, endpoint);

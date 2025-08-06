@@ -9,7 +9,23 @@ namespace TalentManagement.Application.DTOs.External.USAJobs.CodeLists
     public class USAJobsCodeListResponse<T> where T : BaseCodeListItem
     {
         [JsonPropertyName("CodeList")]
-        public List<T>? CodeList { get; set; }
+        public List<USAJobsCodeListItem<T>>? CodeList { get; set; }
+        
+        [JsonPropertyName("DateGenerated")]
+        public DateTime? DateGenerated { get; set; }
+    }
+
+    /// <summary>
+    /// Individual code list item wrapper
+    /// </summary>
+    /// <typeparam name="T">The specific code list data type</typeparam>
+    public class USAJobsCodeListItem<T> where T : BaseCodeListItem
+    {
+        [JsonPropertyName("ValidValue")]
+        public List<T>? ValidValue { get; set; }
+        
+        [JsonPropertyName("id")]
+        public string? Id { get; set; }
     }
 
     /// <summary>

@@ -50,11 +50,13 @@ namespace TalentManagement.Infrastructure.Shared.Services.External
             try
             {
                 var queryParams = BuildSearchQueryString(request);
-                var endpoint = $"/api/search?{queryParams}";
+                var endpoint = $"/search?{queryParams}";
+
+                var fullUrl = $"{_httpClient.BaseAddress?.ToString().TrimEnd('/')}{endpoint}";
 
                 _logger.LogInformation("Searching USAJobs with endpoint: {Endpoint}", endpoint);
 
-                var response = await _httpClient.GetAsync(endpoint, cancellationToken);
+                var response = await _httpClient.GetAsync(fullUrl, cancellationToken);
                 
                 if (!response.IsSuccessStatusCode)
                 {
