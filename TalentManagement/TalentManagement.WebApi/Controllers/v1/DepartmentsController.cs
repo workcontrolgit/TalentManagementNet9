@@ -120,5 +120,22 @@ namespace TalentManagement.WebApi.Controllers.v1
         {
             return Ok(await Mediator.Send(new DeleteDepartmentCommand { Id = id }));
         }
+
+        /// <summary>
+        /// Gets the count of departments based on the specified filter.
+        /// </summary>
+        /// <param name="filter">The filter used to count departments.</param>
+        /// <returns>The number of departments matching the filter.</returns>
+        [HttpGet("count")]
+        [SwaggerOperation(
+            Summary = "Get departments count",
+            Description = "Retrieves the count of departments with optional filtering by Name.",
+            OperationId = "GetDepartmentsCount",
+            Tags = new[] { "Departments" }
+        )]
+        public async Task<IActionResult> GetCount([FromQuery] GetDepartmentsCountQuery filter)
+        {
+            return Ok(await Mediator.Send(filter));
+        }
     }
 }

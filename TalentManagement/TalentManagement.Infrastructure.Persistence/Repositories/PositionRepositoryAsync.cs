@@ -170,6 +170,23 @@
             qry = qry.Where(predicate); // Apply filtering
         }
 
+        /// <summary>
+        /// Gets the count of positions based on the provided filter parameters asynchronously.
+        /// </summary>
+        /// <param name="requestParameters">The filter parameters.</param>
+        /// <returns>A task that represents the asynchronous operation and returns the count of positions.</returns>
+        public async Task<int> GetPositionsCountAsync(GetPositionsCountQuery requestParameters)
+        {
+            var result = _repository
+                .Include(p => p.Department)
+                .AsNoTracking()
+                .AsExpandable();
+
+            FilterByColumn(ref result, requestParameters.PositionNumber, requestParameters.PositionTitle, requestParameters.Department);
+
+            return await result.CountAsync();
+        }
+
         // Filters the query based on a keyword
         private void FilterByColumn(ref IQueryable<Position> qry, string keyword)
         {

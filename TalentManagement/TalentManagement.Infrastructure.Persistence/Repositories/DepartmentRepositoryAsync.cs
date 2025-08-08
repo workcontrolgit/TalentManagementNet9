@@ -124,6 +124,22 @@ namespace TalentManagement.Infrastructure.Persistence.Repositories
             return (shapeData, recordsCount);
         }
 
+        /// <summary>
+        /// Gets the count of departments based on the provided filter parameters asynchronously.
+        /// </summary>
+        /// <param name="requestParameters">The filter parameters.</param>
+        /// <returns>A task that represents the asynchronous operation and returns the count of departments.</returns>
+        public async Task<int> GetDepartmentsCountAsync(GetDepartmentsCountQuery requestParameters)
+        {
+            var result = _repository
+                .AsNoTracking()
+                .AsExpandable();
+
+            FilterByColumn(ref result, requestParameters.Name);
+
+            return await result.CountAsync();
+        }
+
         private void FilterByColumn(ref IQueryable<Department> qry, string keyword)
         {
             if (!qry.Any())

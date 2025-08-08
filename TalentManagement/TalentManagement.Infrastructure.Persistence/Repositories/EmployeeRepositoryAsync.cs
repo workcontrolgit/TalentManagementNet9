@@ -293,6 +293,40 @@
         }
 
         /// <summary>
+        /// Gets the count of employees based on the provided filter parameters asynchronously.
+        /// </summary>
+        /// <param name="requestParameters">The filter parameters.</param>
+        /// <returns>A task that represents the asynchronous operation and returns the count of employees.</returns>
+        public async Task<int> GetEmployeesCountAsync(GetEmployeesCountQuery requestParameters)
+        {
+            var result = _repository
+                .Include(e => e.Position)
+                .AsNoTracking()
+                .AsExpandable();
+
+            var getEmployeesQuery = new GetEmployeesQuery
+            {
+                FirstName = requestParameters.FirstName,
+                MiddleName = requestParameters.MiddleName,
+                LastName = requestParameters.LastName,
+                Email = requestParameters.Email,
+                EmployeeNumber = requestParameters.EmployeeNumber,
+                Phone = requestParameters.Phone,
+                Prefix = requestParameters.Prefix,
+                PositionTitle = requestParameters.PositionTitle,
+                Gender = requestParameters.Gender,
+                MinSalary = requestParameters.MinSalary,
+                MaxSalary = requestParameters.MaxSalary,
+                BirthdayFrom = requestParameters.BirthdayFrom,
+                BirthdayTo = requestParameters.BirthdayTo
+            };
+
+            FilterByColumn(ref result, getEmployeesQuery);
+
+            return await result.CountAsync();
+        }
+
+        /// <summary>
         /// Maps ViewModel field names to Entity field names, excluding computed properties that don't exist on the Entity.
         /// </summary>
         /// <param name="fields">Comma-separated field names from ViewModel</param>

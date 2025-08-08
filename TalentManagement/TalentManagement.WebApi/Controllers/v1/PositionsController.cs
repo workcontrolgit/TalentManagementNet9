@@ -96,5 +96,16 @@
         {
             return Ok(await Mediator.Send(new DeletePositionCommand { Id = id }));
         }
+
+        /// <summary>
+        /// Gets the count of positions based on the specified filter.
+        /// </summary>
+        /// <param name="filter">The filter used to count positions.</param>
+        /// <returns>The number of positions matching the filter.</returns>
+        [HttpGet("count")]
+        public async Task<IActionResult> GetCount([FromQuery] GetPositionsCountQuery filter)
+        {
+            return Ok(await Mediator.Send(filter));
+        }
     }
 }

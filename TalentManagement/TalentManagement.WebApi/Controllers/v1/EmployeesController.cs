@@ -2,6 +2,7 @@
 using TalentManagement.Application.Features.Employees.Commands.UpdateEmployee;
 using TalentManagement.Application.Features.Employees.Commands.DeleteEmployee;
 using TalentManagement.Application.Features.Employees.Queries.GetEmployeeById;
+using TalentManagement.Application.Features.Employees.Queries.GetEmployees;
 
 namespace TalentManagement.WebApi.Controllers.v1
 {
@@ -83,6 +84,17 @@ namespace TalentManagement.WebApi.Controllers.v1
         public async Task<IActionResult> Delete(Guid id)
         {
             return Ok(await Mediator.Send(new DeleteEmployeeCommand { Id = id }));
+        }
+
+        /// <summary>
+        /// Gets the count of employees based on the specified filter.
+        /// </summary>
+        /// <param name="filter">The filter used to count employees.</param>
+        /// <returns>The number of employees matching the filter.</returns>
+        [HttpGet("count")]
+        public async Task<IActionResult> GetCount([FromQuery] GetEmployeesCountQuery filter)
+        {
+            return Ok(await Mediator.Send(filter));
         }
 
     }
