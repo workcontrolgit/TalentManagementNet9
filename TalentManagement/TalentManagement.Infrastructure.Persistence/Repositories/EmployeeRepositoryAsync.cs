@@ -65,7 +65,12 @@
             //limit query fields
             if (!string.IsNullOrWhiteSpace(fields))
             {
-                result = result.Select<Employee>("new(" + fields + ")");
+                // Map ViewModel fields to Entity fields, excluding computed properties that don't exist on Entity
+                var entityFields = MapViewModelFieldsToEntityFields(fields);
+                if (!string.IsNullOrWhiteSpace(entityFields))
+                {
+                    result = result.Select<Employee>("new(" + entityFields + ")");
+                }
             }
             // paging
             result = result
@@ -141,7 +146,12 @@
             //limit query fields
             if (!string.IsNullOrWhiteSpace(fields))
             {
-                result = result.Select<Employee>("new(" + fields + ")");
+                // Map ViewModel fields to Entity fields, excluding computed properties that don't exist on Entity
+                var entityFields = MapViewModelFieldsToEntityFields(fields);
+                if (!string.IsNullOrWhiteSpace(entityFields))
+                {
+                    result = result.Select<Employee>("new(" + entityFields + ")");
+                }
             }
             // paging
             result = result
@@ -280,6 +290,33 @@
             predicate = predicate.Or(p => p.Position.PositionTitle.ToLower().Contains(keyword.ToLower().Trim()));
 
             qry = qry.Where(predicate);
+        }
+
+        /// <summary>
+        /// Maps ViewModel field names to Entity field names, excluding computed properties that don't exist on the Entity.
+        /// </summary>
+        /// <param name="fields">Comma-separated field names from ViewModel</param>
+        /// <returns>Comma-separated field names that exist on the Entity</returns>
+        private string MapViewModelFieldsToEntityFields(string fields)
+        {
+            var fieldArray = fields.Split(',');
+            var entityFields = new List<string>();
+
+            foreach (var field in fieldArray)
+            {
+                var trimmedField = field.Trim();
+                
+                // Skip computed properties that don't exist on Employee entity
+                if (trimmedField.Equals("FullName", StringComparison.OrdinalIgnoreCase) ||
+                    trimmedField.Equals("PositionTitle", StringComparison.OrdinalIgnoreCase))
+                {
+                    continue;
+                }
+                
+                entityFields.Add(trimmedField);
+            }
+
+            return string.Join(",", entityFields);
         }
     }
 }

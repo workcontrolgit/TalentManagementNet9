@@ -56,7 +56,12 @@ namespace TalentManagement.Infrastructure.Persistence.Repositories
 
             if (!string.IsNullOrWhiteSpace(fields))
             {
-                result = result.Select<Department>("new(" + fields + ")");
+                // Map ViewModel fields to Entity fields, excluding any properties that don't exist on Entity
+                var entityFields = MapViewModelFieldsToEntityFields(fields);
+                if (!string.IsNullOrWhiteSpace(entityFields))
+                {
+                    result = result.Select<Department>("new(" + entityFields + ")");
+                }
             }
 
             result = result
@@ -101,7 +106,12 @@ namespace TalentManagement.Infrastructure.Persistence.Repositories
 
             if (!string.IsNullOrWhiteSpace(fields))
             {
-                result = result.Select<Department>("new(" + fields + ")");
+                // Map ViewModel fields to Entity fields, excluding any properties that don't exist on Entity
+                var entityFields = MapViewModelFieldsToEntityFields(fields);
+                if (!string.IsNullOrWhiteSpace(entityFields))
+                {
+                    result = result.Select<Department>("new(" + entityFields + ")");
+                }
             }
 
             result = result
@@ -128,6 +138,28 @@ namespace TalentManagement.Infrastructure.Persistence.Repositories
                 predicate = predicate.Or(d => d.Name.Contains(keyword.Trim()));
 
             qry = qry.Where(predicate);
+        }
+
+        /// <summary>
+        /// Maps ViewModel field names to Entity field names, excluding any properties that don't exist on the Entity.
+        /// </summary>
+        /// <param name="fields">Comma-separated field names from ViewModel</param>
+        /// <returns>Comma-separated field names that exist on the Entity</returns>
+        private string MapViewModelFieldsToEntityFields(string fields)
+        {
+            var fieldArray = fields.Split(',');
+            var entityFields = new List<string>();
+
+            foreach (var field in fieldArray)
+            {
+                var trimmedField = field.Trim();
+                
+                // For Department, all ViewModel properties exist on Entity, but we keep this method for consistency
+                // and future-proofing in case computed properties are added later
+                entityFields.Add(trimmedField);
+            }
+
+            return string.Join(",", entityFields);
         }
     }
 }

@@ -57,28 +57,35 @@
             objRequest.PageSize = request.Length;
 
             // Convert the order parameter to an ORDER BY clause.
-            var colOrder = request.Order[0];
-            switch (colOrder.Column)
+            if (request.Order != null && request.Order.Count > 0)
             {
-                case 0:
-                    objRequest.OrderBy = colOrder.Dir == "asc" ? "LastName" : "LastName DESC";
-                    break;
+                var colOrder = request.Order[0];
+                switch (colOrder.Column)
+                {
+                    case 0:
+                        objRequest.OrderBy = colOrder.Dir == "asc" ? "LastName" : "LastName DESC";
+                        break;
 
-                case 1:
-                    objRequest.OrderBy = colOrder.Dir == "asc" ? "FirstName" : "FirstName DESC";
-                    break;
+                    case 1:
+                        objRequest.OrderBy = colOrder.Dir == "asc" ? "FirstName" : "FirstName DESC";
+                        break;
 
-                case 2:
-                    objRequest.OrderBy = colOrder.Dir == "asc" ? "Email" : "Email DESC";
-                    break;
+                    case 2:
+                        objRequest.OrderBy = colOrder.Dir == "asc" ? "Email" : "Email DESC";
+                        break;
 
-                case 3:
-                    objRequest.OrderBy = colOrder.Dir == "asc" ? "EmployeeNumber" : "EmployeeNumber DESC";
-                    break;
+                    case 3:
+                        objRequest.OrderBy = colOrder.Dir == "asc" ? "EmployeeNumber" : "EmployeeNumber DESC";
+                        break;
 
-                case 4:
-                    objRequest.OrderBy = colOrder.Dir == "asc" ? "Position.PositionTitle" : "Position.PositionTitle DESC";
-                    break;
+                    case 4:
+                        objRequest.OrderBy = colOrder.Dir == "asc" ? "Position.PositionTitle" : "Position.PositionTitle DESC";
+                        break;
+                }
+            }
+            else
+            {
+                objRequest.OrderBy = "LastName";
             }
 
             // If no fields were specified, use the default fields from the view model.
