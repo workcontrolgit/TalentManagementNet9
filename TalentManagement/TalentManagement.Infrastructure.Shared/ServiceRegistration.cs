@@ -1,7 +1,11 @@
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Configuration;
 using TalentManagement.Application.Interfaces;
 using TalentManagement.Application.Interfaces.External;
 using TalentManagement.Infrastructure.Shared.Services;
 using TalentManagement.Infrastructure.Shared.Services.External;
+using TalentManagement.Infrastructure.Shared.Configuration;
+using StackExchange.Redis;
 
 namespace TalentManagement.Infrastructure.Shared
 {
@@ -35,9 +39,30 @@ namespace TalentManagement.Infrastructure.Shared
                 client.Timeout = TimeSpan.FromSeconds(30);
             });
             
-            // Caching service
-            services.AddMemoryCache();
-            services.AddSingleton<ICacheService, MemoryCacheService>();
+            // Configure caching
+            var cacheConfig = _config.GetSection(CacheConfiguration.SectionName).Get<CacheConfiguration>() ?? new CacheConfiguration();
+            services.Configure<CacheConfiguration>(_config.GetSection(CacheConfiguration.SectionName));
+
+            if (cacheConfig.Provider == CacheProvider.Redis)
+            {
+                if (string.IsNullOrEmpty(cacheConfig.ConnectionString))
+                    throw new InvalidOperationException("Redis connection string is required when using Redis cache provider");
+
+                services.AddSingleton<IConnectionMultiplexer>(provider =>
+                {
+                    return ConnectionMultiplexer.Connect(cacheConfig.ConnectionString);
+                });
+                services.AddStackExchangeRedisCache(options =>
+                {
+                    options.Configuration = cacheConfig.ConnectionString;
+                });
+                services.AddSingleton<ICacheService, RedisCacheService>();
+            }
+            else
+            {
+                services.AddMemoryCache();
+                services.AddSingleton<ICacheService, MemoryCacheService>();
+            }
             
             // Register the cached wrapper (USAJobsService is automatically registered by AddHttpClient)
             services.AddScoped<IUSAJobsService, CachedUSAJobsService>();
