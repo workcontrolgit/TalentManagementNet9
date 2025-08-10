@@ -34,20 +34,27 @@
             objRequest.PageSize = request.Length;
 
             // Map order > OrderBy
-            var colOrder = request.Order[0];
-            switch (colOrder.Column)
+            if (request.Order != null && request.Order.Count > 0)
             {
-                case 0:
-                    objRequest.OrderBy = colOrder.Dir == "asc" ? "PositionNumber" : "PositionNumber DESC";
-                    break;
+                var colOrder = request.Order[0];
+                switch (colOrder.Column)
+                {
+                    case 0:
+                        objRequest.OrderBy = colOrder.Dir == "asc" ? "PositionNumber" : "PositionNumber DESC";
+                        break;
 
-                case 1:
-                    objRequest.OrderBy = colOrder.Dir == "asc" ? "PositionTitle" : "PositionTitle DESC";
-                    break;
+                    case 1:
+                        objRequest.OrderBy = colOrder.Dir == "asc" ? "PositionTitle" : "PositionTitle DESC";
+                        break;
 
-                case 2:
-                    objRequest.OrderBy = colOrder.Dir == "asc" ? "Department.Name" : "Department.Name DESC";
-                    break;
+                    case 2:
+                        objRequest.OrderBy = colOrder.Dir == "asc" ? "Department.Name" : "Department.Name DESC";
+                        break;
+                }
+            }
+            else
+            {
+                objRequest.OrderBy = "PositionNumber";
             }
 
             if (string.IsNullOrEmpty(objRequest.Fields))

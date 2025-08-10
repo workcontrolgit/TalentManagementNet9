@@ -28,18 +28,25 @@
             objRequest.PageNumber = (request.Start / request.Length) + 1;
             objRequest.PageSize = request.Length;
 
-            var colOrder = request.Order[0];
-            switch (colOrder.Column)
+            if (request.Order != null && request.Order.Count > 0)
             {
-                case 0:
-                    objRequest.OrderBy = colOrder.Dir == "asc" ? "Name" : "Name DESC";
-                    break;
-                case 1:
-                    objRequest.OrderBy = colOrder.Dir == "asc" ? "MinSalary" : "MinSalary DESC";
-                    break;
-                case 2:
-                    objRequest.OrderBy = colOrder.Dir == "asc" ? "MaxSalary" : "MaxSalary DESC";
-                    break;
+                var colOrder = request.Order[0];
+                switch (colOrder.Column)
+                {
+                    case 0:
+                        objRequest.OrderBy = colOrder.Dir == "asc" ? "Name" : "Name DESC";
+                        break;
+                    case 1:
+                        objRequest.OrderBy = colOrder.Dir == "asc" ? "MinSalary" : "MinSalary DESC";
+                        break;
+                    case 2:
+                        objRequest.OrderBy = colOrder.Dir == "asc" ? "MaxSalary" : "MaxSalary DESC";
+                        break;
+                }
+            }
+            else
+            {
+                objRequest.OrderBy = "Name";
             }
 
             if (string.IsNullOrEmpty(objRequest.Fields))

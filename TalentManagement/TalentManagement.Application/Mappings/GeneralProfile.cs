@@ -19,6 +19,8 @@ namespace TalentManagement.Application.Mappings
 
             // Maps a SalaryRange entity to a GetSalaryRangesViewModel, and vice versa.
             CreateMap<SalaryRange, GetSalaryRangesViewModel>().ReverseMap();
+
+
             // Maps a CreatePositionCommand to a Position entity.
             CreateMap<CreatePositionCommand, Position>();
             // Maps a CreateEmployeeCommand to an Employee entity.
@@ -27,6 +29,7 @@ namespace TalentManagement.Application.Mappings
             CreateMap<CreateDepartmentCommand, Department>();
             // Maps a CreateSalaryRangeCommand to a SalaryRange entity.
             CreateMap<CreateSalaryRangeCommand, SalaryRange>();
+
         }
     }
 }

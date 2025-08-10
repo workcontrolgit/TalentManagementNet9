@@ -1,4 +1,5 @@
-﻿internal static class ApplicationDbContextHelpers
+
+internal static class ApplicationDbContextHelpers
 {
     /// <summary>
     /// Configures the model builder for the application database context.
@@ -80,5 +81,6 @@
             entity.Property(e => e.MaxSalary).HasColumnType("decimal(18, 2)"); // MaxSalary is a decimal with precision 18 and scale 2
             entity.Property(e => e.MinSalary).HasColumnType("decimal(18, 2)"); // MinSalary is a decimal with precision 18 and scale 2
         });
+
     }
 }

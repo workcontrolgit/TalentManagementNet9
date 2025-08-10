@@ -47,6 +47,13 @@
             <param name="id">The Id of the department to delete.</param>
             <returns>The result of the deletion.</returns>
         </member>
+        <member name="M:TalentManagement.WebApi.Controllers.v1.DepartmentsController.GetCount(TalentManagement.Application.Features.Departments.Queries.GetDepartments.GetDepartmentsCountQuery)">
+            <summary>
+            Gets the count of departments based on the specified filter.
+            </summary>
+            <param name="filter">The filter used to count departments.</param>
+            <returns>The number of departments matching the filter.</returns>
+        </member>
         <member name="M:TalentManagement.WebApi.Controllers.v1.EmployeesController.Get(TalentManagement.Application.Features.Employees.Queries.GetEmployees.GetEmployeesQuery)">
             <summary>
             Gets a list of employees based on the specified filter.
@@ -90,6 +97,13 @@
             </summary>
             <param name="id">The Id of the employee to delete.</param>
             <returns>The result of the deletion.</returns>
+        </member>
+        <member name="M:TalentManagement.WebApi.Controllers.v1.EmployeesController.GetCount(TalentManagement.Application.Features.Employees.Queries.GetEmployees.GetEmployeesCountQuery)">
+            <summary>
+            Gets the count of employees based on the specified filter.
+            </summary>
+            <param name="filter">The filter used to count employees.</param>
+            <returns>The number of employees matching the filter.</returns>
         </member>
         <member name="M:TalentManagement.WebApi.Controllers.v1.PositionsController.Get(TalentManagement.Application.Features.Positions.Queries.GetPositions.GetPositionsQuery)">
             <summary>
@@ -141,6 +155,13 @@
             <param name="id">The Id of the position to delete.</param>
             <returns>The result of the deletion.</returns>
         </member>
+        <member name="M:TalentManagement.WebApi.Controllers.v1.PositionsController.GetCount(TalentManagement.Application.Features.Positions.Queries.GetPositions.GetPositionsCountQuery)">
+            <summary>
+            Gets the count of positions based on the specified filter.
+            </summary>
+            <param name="filter">The filter used to count positions.</param>
+            <returns>The number of positions matching the filter.</returns>
+        </member>
         <member name="M:TalentManagement.WebApi.Controllers.v1.SalaryRangesController.Get(TalentManagement.Application.Features.SalaryRanges.Queries.GetSalaryRanges.GetSalaryRangesQuery)">
             <summary>
             Gets a list of salary ranges based on the specified filter.
@@ -183,6 +204,131 @@
             </summary>
             <param name="id">The Id of the salary range to delete.</param>
             <returns>The result of the deletion.</returns>
+        </member>
+        <member name="M:TalentManagement.WebApi.Controllers.v1.SalaryRangesController.GetCount(TalentManagement.Application.Features.SalaryRanges.Queries.GetSalaryRanges.GetSalaryRangesCountQuery)">
+            <summary>
+            Gets the count of salary ranges based on the specified filter.
+            </summary>
+            <param name="filter">The filter used to count salary ranges.</param>
+            <returns>The number of salary ranges matching the filter.</returns>
+        </member>
+        <member name="T:TalentManagement.WebApi.Controllers.v1.USAJobsCodeListController">
+            <summary>
+            Controller for accessing USAJobs code lists
+            </summary>
+        </member>
+        <member name="M:TalentManagement.WebApi.Controllers.v1.USAJobsCodeListController.GetOccupationalSeries(System.Threading.CancellationToken)">
+            <summary>
+            Get all occupational series codes
+            </summary>
+            <returns>List of occupational series</returns>
+        </member>
+        <member name="M:TalentManagement.WebApi.Controllers.v1.USAJobsCodeListController.SearchOccupationalSeries(System.String,System.Threading.CancellationToken)">
+            <summary>
+            Search occupational series by keyword
+            </summary>
+            <param name="keyword">Search keyword</param>
+            <returns>Filtered list of occupational series</returns>
+        </member>
+        <member name="M:TalentManagement.WebApi.Controllers.v1.USAJobsCodeListController.GetOccupationalSeriesByCode(System.String,System.Threading.CancellationToken)">
+            <summary>
+            Get a specific occupational series by code
+            </summary>
+            <param name="code">Occupational series code</param>
+            <returns>Occupational series item</returns>
+        </member>
+        <member name="M:TalentManagement.WebApi.Controllers.v1.USAJobsCodeListController.GetPayPlans(System.Threading.CancellationToken)">
+            <summary>
+            Get all pay plan codes
+            </summary>
+            <returns>List of pay plans</returns>
+        </member>
+        <member name="M:TalentManagement.WebApi.Controllers.v1.USAJobsCodeListController.GetHiringPaths(System.Threading.CancellationToken)">
+            <summary>
+            Get all hiring path codes
+            </summary>
+            <returns>List of hiring paths</returns>
+        </member>
+        <member name="M:TalentManagement.WebApi.Controllers.v1.USAJobsCodeListController.GetPositionScheduleTypes(System.Threading.CancellationToken)">
+            <summary>
+            Get all position schedule type codes
+            </summary>
+            <returns>List of position schedule types</returns>
+        </member>
+        <member name="M:TalentManagement.WebApi.Controllers.v1.USAJobsCodeListController.GetSecurityClearances(System.Threading.CancellationToken)">
+            <summary>
+            Get all security clearance codes
+            </summary>
+            <returns>List of security clearances</returns>
+        </member>
+        <member name="M:TalentManagement.WebApi.Controllers.v1.USAJobsCodeListController.GetCountries(System.Threading.CancellationToken)">
+            <summary>
+            Get all country codes
+            </summary>
+            <returns>List of countries</returns>
+        </member>
+        <member name="M:TalentManagement.WebApi.Controllers.v1.USAJobsCodeListController.GetPostalCodes(System.Threading.CancellationToken)">
+            <summary>
+            Get all postal code (state) codes
+            </summary>
+            <returns>List of postal codes</returns>
+        </member>
+        <member name="M:TalentManagement.WebApi.Controllers.v1.USAJobsCodeListController.RefreshCodeLists(System.Threading.CancellationToken)">
+            <summary>
+            Refresh all code lists from the USAJobs API
+            </summary>
+            <returns>Success message</returns>
+        </member>
+        <member name="M:TalentManagement.WebApi.Controllers.v1.USAJobsCodeListController.CheckServiceHealth(System.Threading.CancellationToken)">
+            <summary>
+            Check if the USAJobs code list service is available
+            </summary>
+            <returns>Service availability status</returns>
+        </member>
+        <member name="M:TalentManagement.WebApi.Controllers.v1.USAJobsController.SearchJobs(TalentManagement.Application.DTOs.External.USAJobs.USAJobsSearchRequest,System.Threading.CancellationToken)">
+            <summary>
+            Search for jobs from USAJobs API
+            </summary>
+            <param name="request">Search parameters for USAJobs</param>
+            <param name="cancellationToken">Cancellation token</param>
+            <returns>USAJobs search results</returns>
+        </member>
+        <member name="M:TalentManagement.WebApi.Controllers.v1.USAJobsController.GetJobDetails(System.String,System.Threading.CancellationToken)">
+            <summary>
+            Get detailed information about a specific USAJobs posting
+            </summary>
+            <param name="positionId">USAJobs position ID</param>
+            <param name="cancellationToken">Cancellation token</param>
+            <returns>Detailed job information from USAJobs</returns>
+        </member>
+        <member name="M:TalentManagement.WebApi.Controllers.v1.USAJobsController.CheckHealth(System.Threading.CancellationToken)">
+            <summary>
+            Test connectivity to USAJobs API
+            </summary>
+            <param name="cancellationToken">Cancellation token</param>
+            <returns>API connection status</returns>
+        </member>
+        <member name="M:TalentManagement.WebApi.Controllers.v1.USAJobsController.SearchJobsGet(System.String,System.String,System.Int32,System.Int32,System.String,System.String,System.String,System.String,System.String,System.Threading.CancellationToken)">
+            <summary>
+            Search for USAJobs with GET method for simple integration
+            </summary>
+            <param name="keyword">Search keyword</param>
+            <param name="locationName">Location filter</param>
+            <param name="page">Page number</param>
+            <param name="resultsPerPage">Results per page</param>
+            <param name="sortField">Sort field</param>
+            <param name="sortDirection">Sort direction</param>
+            <param name="organization">Organization filter</param>
+            <param name="payGradeHigh">High pay grade</param>
+            <param name="payGradeLow">Low pay grade</param>
+            <param name="cancellationToken">Cancellation token</param>
+            <returns>USAJobs search results</returns>
+        </member>
+        <member name="M:TalentManagement.WebApi.Controllers.v1.USAJobsController.GetApiInfo">
+            <summary>
+            Get information about USAJobs API usage and limits
+            </summary>
+            <returns>API usage information</returns>
         </member>
     </members>
 </doc>

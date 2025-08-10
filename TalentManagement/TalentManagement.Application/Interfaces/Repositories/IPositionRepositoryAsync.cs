@@ -41,5 +41,12 @@
         /// Task containing the paged list of Position records and the total number of records found.
         /// </returns>    
         Task<(IEnumerable<Entity> data, RecordsCount recordsCount)> PagedPositionReponseAsync(PagedPositionsQuery requestParameters);
+
+        /// <summary>
+        /// Gets the count of positions based on the provided filter parameters asynchronously.
+        /// </summary>
+        /// <param name="requestParameters">The filter parameters.</param>
+        /// <returns>A task that represents the asynchronous operation and returns the count of positions.</returns>
+        Task<int> GetPositionsCountAsync(GetPositionsCountQuery requestParameters);
     }
 }

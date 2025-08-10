@@ -120,5 +120,22 @@ namespace TalentManagement.WebApi.Controllers.v1
         {
             return Ok(await Mediator.Send(new DeleteSalaryRangeCommand { Id = id }));
         }
+
+        /// <summary>
+        /// Gets the count of salary ranges based on the specified filter.
+        /// </summary>
+        /// <param name="filter">The filter used to count salary ranges.</param>
+        /// <returns>The number of salary ranges matching the filter.</returns>
+        [HttpGet("count")]
+        [SwaggerOperation(
+            Summary = "Get salary ranges count",
+            Description = "Retrieves the count of salary ranges with optional filtering by Name.",
+            OperationId = "GetSalaryRangesCount",
+            Tags = new[] { "SalaryRanges" }
+        )]
+        public async Task<IActionResult> GetCount([FromQuery] GetSalaryRangesCountQuery filter)
+        {
+            return Ok(await Mediator.Send(filter));
+        }
     }
 }
