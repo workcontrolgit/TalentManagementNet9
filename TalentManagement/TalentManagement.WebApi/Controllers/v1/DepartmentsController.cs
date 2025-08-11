@@ -1,4 +1,5 @@
-﻿using Swashbuckle.AspNetCore.Annotations;
+﻿using Microsoft.AspNetCore.Authorization;
+using Swashbuckle.AspNetCore.Annotations;
 using TalentManagement.Application.Features.Departments.Commands.CreateDepartment;
 using TalentManagement.Application.Features.Departments.Commands.UpdateDepartment;
 using TalentManagement.Application.Features.Departments.Commands.DeleteDepartment;
@@ -16,6 +17,7 @@ namespace TalentManagement.WebApi.Controllers.v1
         /// <param name="filter">The filter used to get the list of departments. Supports filtering by Name.</param>
         /// <returns>A list of departments.</returns>
         [HttpGet]
+        [Authorize]
         [SwaggerOperation(
             Summary = "Get departments",
             Description = "Retrieves departments with optional filtering by Name and paging support.",
@@ -33,6 +35,7 @@ namespace TalentManagement.WebApi.Controllers.v1
         /// <param name="id">The Id of the department.</param>
         /// <returns>The department with the specified Id.</returns>
         [HttpGet("{id}")]
+        [Authorize]
         [SwaggerOperation(
             Summary = "Get department by ID",
             Description = "Retrieves a specific department by its ID.",
@@ -50,6 +53,7 @@ namespace TalentManagement.WebApi.Controllers.v1
         /// <param name="command">The command containing the data for the new department.</param>
         /// <returns>A 201 Created response containing the newly created department.</returns>
         [HttpPost]
+        [Authorize(Policy = AuthorizationConsts.AdminPolicy)]
         [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [SwaggerOperation(
@@ -70,6 +74,7 @@ namespace TalentManagement.WebApi.Controllers.v1
         /// <param name="query">The query parameters for the paged list.</param>
         /// <returns>A paged list of departments.</returns>
         [HttpPost]
+        [Authorize]
         [Route("Paged")]
         [SwaggerOperation(
             Summary = "Get paged departments",
@@ -89,6 +94,7 @@ namespace TalentManagement.WebApi.Controllers.v1
         /// <param name="command">The command containing the updated information.</param>
         /// <returns>The updated department.</returns>
         [HttpPut("{id}")]
+        [Authorize(Policy = AuthorizationConsts.AdminPolicy)]
         [SwaggerOperation(
             Summary = "Update department",
             Description = "Updates an existing department.",
@@ -110,6 +116,7 @@ namespace TalentManagement.WebApi.Controllers.v1
         /// <param name="id">The Id of the department to delete.</param>
         /// <returns>The result of the deletion.</returns>
         [HttpDelete("{id}")]
+        [Authorize(Policy = AuthorizationConsts.AdminPolicy)]
         [SwaggerOperation(
             Summary = "Delete department",
             Description = "Deletes a department by its ID.",
