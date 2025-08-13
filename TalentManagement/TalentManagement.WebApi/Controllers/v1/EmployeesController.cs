@@ -1,4 +1,5 @@
-﻿using TalentManagement.Application.Features.Employees.Commands.CreateEmployee;
+﻿using Microsoft.AspNetCore.Authorization;
+using TalentManagement.Application.Features.Employees.Commands.CreateEmployee;
 using TalentManagement.Application.Features.Employees.Commands.UpdateEmployee;
 using TalentManagement.Application.Features.Employees.Commands.DeleteEmployee;
 using TalentManagement.Application.Features.Employees.Queries.GetEmployeeById;
@@ -16,6 +17,7 @@ namespace TalentManagement.WebApi.Controllers.v1
         /// <param name="filter">The filter used to get the list of employees.</param>
         /// <returns>A list of employees.</returns>
         [HttpGet]
+        [Authorize]
         public async Task<IActionResult> Get([FromQuery] GetEmployeesQuery filter)
         {
             return Ok(await Mediator.Send(filter));
@@ -27,6 +29,7 @@ namespace TalentManagement.WebApi.Controllers.v1
         /// <param name="id">The Id of the employee.</param>
         /// <returns>The employee with the specified Id.</returns>
         [HttpGet("{id}")]
+        [Authorize]
         public async Task<IActionResult> Get(Guid id)
         {
             return Ok(await Mediator.Send(new GetEmployeeByIdQuery { Id = id }));
@@ -38,6 +41,7 @@ namespace TalentManagement.WebApi.Controllers.v1
         /// <param name="command">The command containing the data for the new employee.</param>
         /// <returns>A 201 Created response containing the newly created employee.</returns>
         [HttpPost]
+        [Authorize(Policy = AuthorizationConsts.AdminPolicy)]
         [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         public async Task<IActionResult> Post(CreateEmployeeCommand command)
@@ -54,6 +58,7 @@ namespace TalentManagement.WebApi.Controllers.v1
         /// <returns>A paged list of employees.</returns>
         [HttpPost]
         [Route("Paged")]
+        [Authorize]
         public async Task<IActionResult> Paged(PagedEmployeesQuery query)
         {
             return Ok(await Mediator.Send(query));
@@ -66,6 +71,7 @@ namespace TalentManagement.WebApi.Controllers.v1
         /// <param name="command">The command containing the updated information.</param>
         /// <returns>The updated employee.</returns>
         [HttpPut("{id}")]
+        [Authorize(Policy = AuthorizationConsts.AdminPolicy)]
         public async Task<IActionResult> Put(Guid id, UpdateEmployeeCommand command)
         {
             if (id != command.Id)
@@ -81,6 +87,7 @@ namespace TalentManagement.WebApi.Controllers.v1
         /// <param name="id">The Id of the employee to delete.</param>
         /// <returns>The result of the deletion.</returns>
         [HttpDelete("{id}")]
+        [Authorize(Policy = AuthorizationConsts.AdminPolicy)]
         public async Task<IActionResult> Delete(Guid id)
         {
             return Ok(await Mediator.Send(new DeleteEmployeeCommand { Id = id }));
