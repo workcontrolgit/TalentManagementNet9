@@ -186,10 +186,14 @@ dotnet test
 This project includes comprehensive documentation covering various aspects of the system:
 
 ### Architecture & Design
-- **[Web API Design](WebAPIDesign.md)** - Complete Position Description Web API design document with endpoints, data models, and integration patterns
+- **[WebAPI Design](WebAPI-Design.md)** - Clean Architecture with CQRS, Fluent Validation, and Testing Strategy
 - **[Cache Provider Architecture](CACHE-PROVIDER.md)** - Cache system architecture tutorial covering both Memory and Redis providers
 
+### Security & Authorization
+- **[Authorization Policy](Authorization-Policy.md)** - RBAC (Role-Based Access Control) and security implementation
+
 ### External API Integration
+- **[External API Integration](ExternalAPI-Integration.md)** - Integration patterns and strategies for external APIs
 - **[USAJobs Code List Cache](ExternalAPI-Code-List-Cache.md)** - Cache implementation strategy for USAJobs code list APIs
 - **[USAJobs Search Cache](ExternalAPI-Job-Search-Cache.md)** - Cache implementation for USAJobs search functionality
 
