@@ -57,6 +57,7 @@ namespace TalentManagement.WebApi.Controllers.v1
         /// <param name="query">The query parameters for the paged list.</param>
         /// <returns>A paged list of employees.</returns>
         [HttpPost]
+        [Authorize]
         [Route("Paged")]
         [Authorize]
         public async Task<IActionResult> Paged(PagedEmployeesQuery query)
