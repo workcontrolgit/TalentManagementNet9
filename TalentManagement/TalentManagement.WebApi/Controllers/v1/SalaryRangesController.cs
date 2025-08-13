@@ -1,4 +1,5 @@
-﻿using Swashbuckle.AspNetCore.Annotations;
+﻿using Microsoft.AspNetCore.Authorization;
+using Swashbuckle.AspNetCore.Annotations;
 using TalentManagement.Application.Features.SalaryRanges.Commands.CreateSalaryRange;
 using TalentManagement.Application.Features.SalaryRanges.Commands.UpdateSalaryRange;
 using TalentManagement.Application.Features.SalaryRanges.Commands.DeleteSalaryRange;
@@ -16,6 +17,7 @@ namespace TalentManagement.WebApi.Controllers.v1
         /// <param name="filter">The filter used to get the list of salary ranges. Supports filtering by Name.</param>
         /// <returns>A list of salary ranges.</returns>
         [HttpGet]
+        [Authorize]
         [SwaggerOperation(
             Summary = "Get salary ranges",
             Description = "Retrieves salary ranges with optional filtering by Name and paging support.",
@@ -33,6 +35,7 @@ namespace TalentManagement.WebApi.Controllers.v1
         /// <param name="id">The Id of the salary range.</param>
         /// <returns>The salary range with the specified Id.</returns>
         [HttpGet("{id}")]
+        [Authorize]
         [SwaggerOperation(
             Summary = "Get salary range by ID",
             Description = "Retrieves a specific salary range by its ID.",
@@ -50,6 +53,7 @@ namespace TalentManagement.WebApi.Controllers.v1
         /// <param name="command">The command containing the data for the new salary range.</param>
         /// <returns>A 201 Created response containing the newly created salary range.</returns>
         [HttpPost]
+        [Authorize(Policy = AuthorizationConsts.AdminPolicy)]
         [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [SwaggerOperation(
@@ -71,6 +75,7 @@ namespace TalentManagement.WebApi.Controllers.v1
         /// <returns>A paged list of salary ranges.</returns>
         [HttpPost]
         [Route("Paged")]
+        [Authorize]
         [SwaggerOperation(
             Summary = "Get paged salary ranges",
             Description = "Retrieves a paged list of salary ranges.",
@@ -89,6 +94,7 @@ namespace TalentManagement.WebApi.Controllers.v1
         /// <param name="command">The command containing the updated information.</param>
         /// <returns>The updated salary range.</returns>
         [HttpPut("{id}")]
+        [Authorize(Policy = AuthorizationConsts.AdminPolicy)]
         [SwaggerOperation(
             Summary = "Update salary range",
             Description = "Updates an existing salary range.",
@@ -110,6 +116,7 @@ namespace TalentManagement.WebApi.Controllers.v1
         /// <param name="id">The Id of the salary range to delete.</param>
         /// <returns>The result of the deletion.</returns>
         [HttpDelete("{id}")]
+        [Authorize(Policy = AuthorizationConsts.AdminPolicy)]
         [SwaggerOperation(
             Summary = "Delete salary range",
             Description = "Deletes a salary range by its ID.",
